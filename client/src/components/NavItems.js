@@ -121,6 +121,14 @@ class NavItems extends Component {
             {
                 class: "nav_item",
                 icon: "file-text-o",
+                text: "Chat",
+                link: "/chat",
+                restricted: true,
+                permissions: ["admin", "student", "professor"]
+            },
+            {
+                class: "nav_item",
+                icon: "file-text-o",
                 text: "Profile",
                 link: "/profile",
                 restricted: true,

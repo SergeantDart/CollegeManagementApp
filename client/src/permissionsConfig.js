@@ -376,5 +376,16 @@ export const permissionsConfig = [
         permissions: [
             roles.professor
         ]
+    },
+    {
+        component: CharacterData,
+        path: "/chat",
+        title: "Room chat",
+        exact: true,
+        permissions: [
+            roles.admin,
+            roles.professor,
+            roles.student
+        ]
     }
 ];

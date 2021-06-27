@@ -36,6 +36,7 @@ import StudentOverview from "./screens/StudentOverview";
 import DocumentsList from "./screens/DocumentsList";
 import SendDocument from "./screens/SendDocument";
 import ProfessorOverview from "./screens/ProfessorOverview";
+import Chat from "./screens/Chat";
 
 
 const Routes = () => {
@@ -78,6 +79,7 @@ const Routes = () => {
                     <Route path="/professor-overview" exact component={Auth(ProfessorOverview, true)}/>
                     <Route path="/documents-list" exact component={Auth(DocumentsList, true)}/>
                     <Route path="/send-document" exact component={Auth(SendDocument, true)}/>
+                    <Route path="/chat" exact component={Auth(Chat, true)}/>
                 </Switch>
         </Layout>
 

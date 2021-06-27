@@ -431,7 +431,7 @@ class AboutStudent extends Component {
 
 
         for(let key in this.state.formData) {
-            isFormValid = isFormValid && this.state.formData[key].valid ? true : false;
+            isFormValid = isFormValid && this.state.formData[key].isValid ? true : false;
         }
 
         if(isFormValid) {

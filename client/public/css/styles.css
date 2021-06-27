@@ -258,8 +258,8 @@ select {
   margin: 1vw auto;
   background-color: lightgray;
   height: 60vw;
-
 }
+
 .list_container .student_container {
   display: flex;
   font-weight: 300;
@@ -2036,5 +2036,121 @@ html {
   padding-bottom: 1vw;
   font-style: italic;
 }
+
+.chat_container {
+  width: 90%;
+  margin: 1vw auto;
+  background-color: lightgray;
+  height: 60vw;
+}
+
+.chat_container h2 {
+  font-weight: 500;
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 5rem;
+}
+
+.chat_container main {
+  padding: 10px;
+  height: 80vh;
+  margin: 10vh 0 10vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  background-color: lightblue;
+  border: 3px solid blue;
+}
+
+.chat_container main::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.chat_container main::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+.chat_container main::-webkit-scrollbar-thumb {
+  background: black;
+}
+
+.chat_container form {
+  height: 10vh;
+  bottom: 0;
+  background-color: rgb(24, 23, 23);
+  width: 100%;
+  display: flex;
+  font-size: 1.5rem;
+}
+
+.chat_container button {
+  width: 20%;
+  background-color: lightblue;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding-top: 0;
+}
+
+.chat_container button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chat_container input {
+  line-height: 1.5;
+  width: 100%;
+  font-size: 1.5rem;
+  background: rgb(58, 58, 58);
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+}
+
+.chat_container p {
+  max-width: 500px;
+  margin-bottom: 12px;
+  line-height: 24px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  position: relative;
+  color: white;
+}
+
+.chat_container .sent_message {
+  display: flex;
+}
+
+.chat_container .sent_message p {
+  color: white;
+  background-color: #0B93f6;
+  max-width: fit-content;
+  word-wrap: break-word;
+
+}
+
+.chat_container .received_message {
+  display: flex;
+}
+
+.chat_container .received_message p {
+  color: black;
+  background-color: #e5e5ea;
+  max-width: fit-content;
+  word-wrap: break-word;
+}
+
+.chat_container section {
+  display: inline-block;
+  font-weight: 500;
+  font-style: italic;
+}
+
 
 

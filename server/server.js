@@ -29,6 +29,9 @@ require("./routes/newsRoutes")(app);
 require("./routes/examRoutes")(app);
 require("./routes/documentRoutes")(app);
 
+
+
+
 //powering up the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

@@ -23,17 +23,10 @@ const Professor = ({professor, type, aboutProfessor, deleteProfessor, userRole})
                     <div className="edit" onClick={() => aboutProfessor(professor.professorId)}>
                         ABOUT
                     </div>
-                    {userRole == "admin" 
-                    ?
-                    (
-                        <div className="delete" onClick={() => deleteProfessor(professor.professorId)}>
-                            DELETE
-                        </div>
-                    )
-                    :
-                    null
-                    }
 
+                    <div className="delete" onClick={() => deleteProfessor(professor.professorId)}>
+                        DELETE
+                    </div>
                 </div>
             )
         }
@@ -61,7 +54,7 @@ const Professor = ({professor, type, aboutProfessor, deleteProfessor, userRole})
                 {professor.Department.departmentName}
             </div>
 
-            {renderOptions()}
+            {userRole == "admin" ? renderOptions() : null}
      
         </div>
     )

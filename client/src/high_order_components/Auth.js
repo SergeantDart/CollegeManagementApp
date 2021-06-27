@@ -26,6 +26,7 @@ export default function Auth(WantedComponent, requiresAuth) {
             //if authenticated
             if(nextProps.users.login.user) {
                 const currentRoute = permissionsConfig.find(route => {
+                    //if route exists
                     if(route.path === this.props.match.path) {
                         return true;
                     }
