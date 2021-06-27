@@ -22,7 +22,7 @@ const Student = sequelize.define("Student", {
         },
         studentDob: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         studentEmail: {
             type: DataTypes.STRING,

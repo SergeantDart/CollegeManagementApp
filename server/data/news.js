@@ -10,7 +10,7 @@ module.exports = [
     },
     {
         newsAuthorName: "Antonio Dumitrascu",
-        newsTitle: "Good news",
+        newsTitle: "In the attention of all first year students",
         newsPicturePath: "news2.jpg",
         newsText: `<p>Lorem Ipsum is simply dummy text of the printing and 
         typesetting industry. Lorem Ipsum has been the industry's standard dummy 
@@ -19,7 +19,7 @@ module.exports = [
     },
     {
         newsAuthorName: "Antonio Dumitrascu",
-        newsTitle: "Bad news",
+        newsTitle: "The main library temporary closed",
         newsPicturePath: "news3.jpg",
         newsText: `<p>Lorem Ipsum is simply dummy text of the printing and 
         sages, and more recently with desktop publishing software like Aldus 

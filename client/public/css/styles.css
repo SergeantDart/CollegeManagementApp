@@ -49,6 +49,16 @@ header .nav_item {
   border-top: 0.25rem pink;
   font-size: 1rem;
   color: white;
+  display: flex;
+}
+
+#nav_icon {
+  width: 20%;
+  text-align: left;
+}
+
+#nav_text {
+  width: 50%;
 }
 
 header img {
@@ -389,6 +399,7 @@ select {
   flex-grow: 1;
   background-color: salmon;
   border: 1px solid rebeccapurple;
+  overflow: scroll
 }
 
 .about_container .about_right_container button {
@@ -413,7 +424,7 @@ select {
   flex-grow: 1;
   width: 25%;
   border: 1px solid purple;
-  overflow: auto;
+  overflow: scroll;
 }
 
 
@@ -610,10 +621,10 @@ select {
 
 .mark_container .student_name {
   display: inline-block;
-  font-size: 3rem;
+  font-size: calc(1.25rem + 8px);
   width: 20%;
   position: absolute;
-  top: 1vw 
+  top: 2.25vw 
 
 }
 
@@ -1722,15 +1733,14 @@ html {
 }
 
 .mark .left {
-  flex-grow: 1;
-  text-align: left;
+  flex: 1 1 0px;
   margin-left: 5vw;
 }
 
 .mark .right {
-  flex-grow: 1;
-  text-align: center;
+  flex: 1 1 0px;
   margin-right: 5vw;
+  text-align: right;
 }
 
 .about_right_container select {
@@ -1977,13 +1987,13 @@ html {
   border-left: 0px;
 }
 
-.sender {
+.document_sender {
   font-size: calc(0.8vw + 5px);
   font-style: italic;
   padding-top: 1vw;
 }
 
-.document .message {
+.document_message {
   font-size: calc(0.5vw + 5px);
   padding-top: 1vw;
   padding-right: 2vw;
@@ -2152,5 +2162,24 @@ html {
   font-style: italic;
 }
 
+.list_container .message {
+  text-align: center;
+}
+
+#chat_message_username {
+  color: lightcoral;
+}
+
+.chat_container h1, #profile_title {
+  text-align: center;
+  font-weight: 600;
+  padding: 1vw auto;
+  margin-bottom: 5vw;
+  border-bottom: 3px solid black;
+}
+
+#profile_title {
+  font-size: calc(2rem + 8px);
+}
 
 

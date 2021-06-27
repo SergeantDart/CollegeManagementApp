@@ -1,4 +1,5 @@
 const {sequelize} = require("./database");
+const request = require("request");
 
 const UserRole = require("./models/UserRole");
 const User = require("./models/User");
@@ -53,10 +54,27 @@ module.exports = function() {
         .then(() => Professor.bulkCreate(professors, {validate: true, individualHooks: true}))
         .then(() => StudyGroup.bulkCreate(studyGroups))
         .then(() => Student.bulkCreate(students, {validate: true, individualHooks: true}))
-        .then(() => Course.bulkCreate(courses))
+        //temporary fix, have to keep studying
+        .then(() => {
+            if(courses) {
+                courses.map(course => {
+                    request({
+                        url: "http://localhost:8000/api/addCourse",
+                        method: "POST",
+                        headers: "Accept: application/json",
+                        json: true,
+                        body: course
+                    }, function (error, response, body) {
+                        if(error) {
+                            console.log(error);
+                        }
+                    });
+                })
+            }
+        })
         .then(() => PresenceSheet.bulkCreate([]))
         .then(() => Mark.bulkCreate([]))
-        .then(() => Exam.bulkCreate(exams))
+        //.then(() => Exam.bulkCreate(exams))
         .then(() => User.bulkCreate(users, {validate: true, individualHooks: true}))
         .then(() => News.bulkCreate(news))
         .catch(error => console.log(error));

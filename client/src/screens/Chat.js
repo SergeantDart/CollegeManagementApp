@@ -33,7 +33,7 @@ const Chat = (props) => {
     console.log(props);
     return (
         <div className="chat_container">
-            <h2>Academic chat room</h2>
+            <h1>Academic chat room</h1>
             <main>
                 {messages && messages.map(message =>
                     <ChatMessage key={message.id} message={message} currentUser={props.users.login.user}/>

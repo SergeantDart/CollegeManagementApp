@@ -48,8 +48,9 @@ class DepartmentsList extends Component {
             return (
                 <Department key={department.departmentId} department={department} history={this.props.history} dispatch={this.props.dispatch} userRole={this.props.users.login.user.userRole}/>
             );
-        })
-    }
+        });
+    } 
+
 
 
 
@@ -106,11 +107,11 @@ class DepartmentsList extends Component {
 
                     <div>
 
-                        {this.renderDepartments(this.state.departments)}
+                        {this.state.departments.length > 0 ? this.renderDepartments(this.state.departments) : <div className="message">No departments yet.</div>}
 
                     </div>
 
-                    {this.renderNavButtons()}
+                    {this.state.departments.length > 0 ? this.renderNavButtons() : null} 
 
                 </div>
 

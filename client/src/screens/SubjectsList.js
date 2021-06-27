@@ -105,11 +105,11 @@ class SubjectsList extends Component {
 
                     <div>
 
-                        {this.renderSubjects(this.state.subjects)}
+                        {this.state.subjects.length > 0 ? this.renderSubjects(this.state.subjects) : <div className="message">No subjects yet.</div>}
 
                     </div>
 
-                    {this.renderNavButtons()}
+                    {this.state.subjects.length > 0 ? this.renderNavButtons() : null}
 
                 </div>
 

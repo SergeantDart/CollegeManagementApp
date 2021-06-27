@@ -47,7 +47,7 @@ class DocumentsList extends Component {
             return (
                 <Document key={document.documentId} document={document} userRole={this.props.users.login.user.userRole}/>
             );
-        })
+        });
     }
 
 
@@ -92,14 +92,13 @@ class DocumentsList extends Component {
 
                     <div>
 
-                        {this.renderDocuments(this.state.documents)}
+                        {this.state.documents.length > 0 ? this.renderDocuments(this.state.documents) : <div className="message">No documents received yet.</div>}
 
                     </div>
 
-                    {this.renderNavButtons()}
+                    {this.state.documents.length > 0 ? this.renderNavButtons() : null}
 
                 </div>
-
             );
         } else {
             return (

@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
-import FontAwesome from "react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {connect} from "react-redux";
+import {faChalkboardTeacher, faUserGraduate, faBook, faUniversity, faHome, faSignInAlt, faUsers, faFileAlt, faUserAlt, faComments, faChalkboard, faNewspaper, faFileUpload, faFileDownload, faIdCard} from "@fortawesome/free-solid-svg-icons";
 
 class NavItems extends Component {
 
@@ -9,14 +10,14 @@ class NavItems extends Component {
         items: [
             {
                 class: "nav_item",
-                icon: "home",
+                icon: faHome,
                 text: "Home",
                 link: "/",
                 restricted: false
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faSignInAlt,
                 text: "Login",
                 link: "/login",
                 restricted: false,
@@ -24,7 +25,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faIdCard,
                 text: "Student overview",
                 link: "/student-overview",
                 restricted: true,
@@ -32,7 +33,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faIdCard,
                 text: "Professor overview",
                 link: "/professor-overview",
                 restricted: true,
@@ -40,7 +41,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faUserGraduate,
                 text: "Students",
                 link: "/students-list",
                 restricted: true,
@@ -48,15 +49,15 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
-                text: "Study Groups",
+                icon: faUsers,
+                text: "Study groups",
                 link: "/studygroups-list",
                 restricted: true,
                 permissions: ["admin", "professor", "student"]
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faChalkboardTeacher,
                 text: "Professors",
                 link: "/professors-list",
                 restricted: true,
@@ -64,7 +65,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faUniversity,
                 text: "Departments",
                 link: "/departments-list",
                 restricted: true,
@@ -72,7 +73,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faChalkboard,
                 text: "Courses",
                 link: "/courses-list",
                 restricted: true,
@@ -80,7 +81,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faFileAlt,
                 text: "Exams",
                 link: "/exams-list",
                 restricted: true,
@@ -88,7 +89,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faBook,
                 text: "Subjects",
                 link: "/subjects-list",
                 restricted: true,
@@ -96,7 +97,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faNewspaper,
                 text: "News",
                 link: "/news-list",
                 restricted: true,
@@ -104,7 +105,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faFileUpload,
                 text: "Send docs",
                 link: "/send-document",
                 restricted: true,
@@ -112,7 +113,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faFileDownload,
                 text: "Received docs",
                 link: "/documents-list",
                 restricted: true,
@@ -120,7 +121,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faComments,
                 text: "Chat",
                 link: "/chat",
                 restricted: true,
@@ -128,7 +129,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faUserAlt,
                 text: "Profile",
                 link: "/profile",
                 restricted: true,
@@ -136,7 +137,7 @@ class NavItems extends Component {
             },
             {
                 class: "nav_item",
-                icon: "file-text-o",
+                icon: faSignInAlt,
                 text: "Logout",
                 link: "/logout",
                 restricted: true,
@@ -149,8 +150,8 @@ class NavItems extends Component {
         return (
             <div key={index} className={item.class}>
                 <Link to={item.link} onClick={this.props.onHideNav}>
-                    <FontAwesome name={item.icon}/>
-                    {item.text}
+                    <FontAwesomeIcon id="nav_icon" icon={item.icon}/>
+                    <span id="nav_text"></span>{item.text}
                 </Link>
             </div>
         );

@@ -55,7 +55,7 @@ class ProfessorsList extends Component {
         }
     }
 
-    renderStudents = (professorsList) => {
+    renderProfessors = (professorsList) => {
         return professorsList.map(professor => {
             return (
                 <Professor key={professor.studentId} professor={professor} aboutProfessor={this.aboutProfessor} deleteProfessor={this.deleteProfessor} type="info" userRole={this.props.users.login.user.userRole}/>
@@ -64,7 +64,7 @@ class ProfessorsList extends Component {
     }
 
     renderLabels = (labels) => {
-        return <Professor professor={labels} type="label"/>
+        return <Professor professor={labels} type="label" userRole={this.props.users.login.user.userRole}/>
     }
 
     renderAddProfessorButton = () => {
@@ -141,12 +141,12 @@ class ProfessorsList extends Component {
 
                     <div>
 
-                        {this.renderLabels(this.state.labels)}
-                        {this.renderStudents(this.state.professors)}
+                        {this.state.professors.length > 0 ? this.renderLabels(this.state.labels) : null}
+                        {this.state.professors.length > 0 ? this.renderProfessors(this.state.professors) : <div className="message">No professors yet.</div>}
 
                     </div>
 
-                    {this.renderNavButtons()}
+                    {this.state.professors.length > 0 ? this.renderNavButtons() : null}
 
                 </div>
 

@@ -55,7 +55,7 @@ class CoursesList extends Component {
             return (
                 <Course key={course.courseId} course={course} history={this.props.history} dispatch={this.props.dispatch} userRole={this.props.users.login.user.userRole}/>
             );
-        })
+        });
     }
 
 
@@ -164,11 +164,11 @@ class CoursesList extends Component {
 
                     <div>
 
-                        {this.renderCourses(this.state.courses)}
+                        {this.state.courses.length > 0 ? this.renderCourses(this.state.courses) : <div className="message">No courses yet</div>}
 
                     </div>
 
-                    {!this.state.customList ? this.renderNavButtons() : null}
+                    {!this.state.customList && this.state.courses.length > 0 ? this.renderNavButtons() : null}
 
                 </div>
 

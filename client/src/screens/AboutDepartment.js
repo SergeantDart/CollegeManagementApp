@@ -11,7 +11,7 @@ class AboutDepartment extends Component {
 
     state = {
         edit: false,
-        department: {},
+        department: null,
         professors: [],
         error: "",
         loading: false,
@@ -186,7 +186,10 @@ class AboutDepartment extends Component {
                 ?
                 <button onClick={() => this.editHandlle()}>EDIT</button>
                 :
-                <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                <div>
+                    <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                    <button onClick={(event) => this.cancelHandle(event)}>CANCEL</button>
+                </div>
     }
 
     renderError = () => {
@@ -197,6 +200,27 @@ class AboutDepartment extends Component {
                 </div>
                 :
                 null
+    }
+
+    cancelHandle = () => {
+        let tempFormData = this.state.formData;
+
+        for (var key of Object.keys(tempFormData)) {
+            tempFormData[key].value = this.state.department[key];
+            tempFormData[key].isValid = true;
+            tempFormData[key].config.disabled = true;
+            tempFormData[key].isBlurred = false;
+        }
+
+        tempFormData.facultyId.defaultValue =this.state.department.facultyId;
+        tempFormData.facultyId.value = this.state.department.facultyId;
+
+
+        this.setState({
+            formData: tempFormData,
+            edit: false,
+            error: ""
+        });
     }
 
     editHandlle = () => {
@@ -240,23 +264,30 @@ class AboutDepartment extends Component {
     }
 
     renderProfessors = (professorsList) => {
-        return professorsList.map(professor => {
+        if(professorsList.length > 0) {
+            return professorsList.map(professor => {
+                return (
+                    <div className="department_professor">
+                        <Link to={{
+                            pathname:`/professor/${professor.professorId}`,
+                            state: {fromDashboard: true }}}>
+                                {`# ${professor.professorFirstName} ${professor.professorLastName}`}
+                        </Link>
+                    </div>
+    
+                )
+            });
+        } else {
             return (
-                <div className="department_professor">
-                    <Link to={{
-                        pathname:`/professor/${professor.professorId}`,
-                        state: {fromDashboard: true }}}>
-                            {`# ${professor.professorFirstName} ${professor.professorLastName}`}
-                    </Link>
-                </div>
-
+                <div className="message">No professors enrolled yet in this department.</div>
             )
-        });
+        }
+
     }
 
 
     render() {
-        if(!this.state.loading) {
+        if(!this.state.loading && this.state.department) {
             return (
                 <div className="about_container">
                     <div className="about_left_container">

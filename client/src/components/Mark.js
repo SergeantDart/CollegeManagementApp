@@ -168,16 +168,19 @@ class Mark extends Component {
                     icon: 'error',  
                     title: 'Oops...',  
                     text: 'Check the marks percentage in the subjects description!',  
-                  });
-                  let tempFormData = this.state.formData;
-                  for (var key of Object.keys(tempFormData)) {
-                      tempFormData[key].value = this.props.mark[key]
-                      tempFormData[key].isValid = true;
-                  }
-                  this.setState({
-                      formData: tempFormData
-                  });
-                  window.location.reload();
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        let tempFormData = this.state.formData;
+                        for (var key of Object.keys(tempFormData)) {
+                            tempFormData[key].value = this.props.mark[key]
+                            tempFormData[key].isValid = true;
+                        }
+                        this.setState({
+                            formData: tempFormData
+                        });
+                        window.location.reload();
+                    } 
+                  })    
             }
 
             //TODO
@@ -209,7 +212,7 @@ class Mark extends Component {
                 <div>
                     <div className="mark_container">
                         <div className="student_name">
-                            {this.state.mark.Student.studentFirstName}
+                            {`${this.state.mark.Student.studentFirstName} ${this.state.mark.Student.studentLastName}`}
                         </div>
                         <div className="mark">
                             <div className="theory">

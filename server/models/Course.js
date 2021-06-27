@@ -17,7 +17,7 @@ const Course = sequelize.define("Course", {
     },
     courseTime: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
     },
     courseDescription: {
         type: DataTypes.STRING,

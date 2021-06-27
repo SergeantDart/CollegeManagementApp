@@ -8,7 +8,7 @@ import moment from "moment";
 class AboutNews extends Component {
 
     state = {
-        news: {},
+        news: null,
         imageURL: "",
         error: "",
         isLoaded: false,
@@ -39,7 +39,7 @@ class AboutNews extends Component {
 
     render() {
         console.log(this.state);
-        if(this.state.isLoaded) {
+        if(this.state.isLoaded && this.state.news) {
             return (
                 <div className="article_wrapper">
                     <div className="article_info">

@@ -25,7 +25,7 @@ class AboutCourse extends Component {
         edit: false,
         isAddPresenceSheetSelected: false,
         loading: true,
-        course: {},
+        course: null,
         error: "",
         formData: {
             courseName: {
@@ -343,7 +343,10 @@ class AboutCourse extends Component {
                 ?
                 <button onClick={() => this.editHandlle()}>EDIT</button>
                 :
-                <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                <div>
+                    <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                    <button onClick={(event) => this.cancelHandle(event)}>CANCEL</button>
+                </div>
     }
 
     editHandlle = () => {
@@ -354,6 +357,35 @@ class AboutCourse extends Component {
         this.setState({
             formData: tempFormData,
             edit: true
+        });
+    }
+
+    cancelHandle = () => {
+        let tempFormData = this.state.formData;
+
+        for (var key of Object.keys(tempFormData)) {
+            tempFormData[key].value = this.state.course[key];
+            tempFormData[key].isValid = true;
+            tempFormData[key].config.disabled = true;
+            tempFormData[key].isBlurred = false;
+        }
+
+        tempFormData.courseTime.value = moment(this.state.course.courseTime).format("dddd HH:mm");
+
+        tempFormData.studyGroupId.defaultValue = this.state.course.studyGroupId;
+        tempFormData.studyGroupId.value = this.state.course.studyGroupId;
+
+        tempFormData.subjectId.defaultValue = this.state.course.subjectId;
+        tempFormData.subjectId.value = this.state.course.subjectId;
+
+        tempFormData.professorId.defaultValue =this.state.course.professorId;
+        tempFormData.professorId.value = this.state.course.professorId;
+
+
+        this.setState({
+            formData: tempFormData,
+            edit: false,
+            error: ""
         });
     }
 
@@ -544,7 +576,7 @@ class AboutCourse extends Component {
     }
 
     render() {
-        if(!this.state.loading) {
+        if(!this.state.loading && this.state.course) {
             return (
                 <div>
                     <div className="about_container">

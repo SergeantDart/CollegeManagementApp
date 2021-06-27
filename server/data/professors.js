@@ -44,5 +44,61 @@ module.exports = [
         professorSalary: 1256,
         userId: null,
         departmentId: 2
-    }
+    },
+    {
+        professorFirstName: "Badea",
+        professorLastName: "Catalin",
+        professorDob: moment("19/04/1990", "DD/MM/YYYY"),
+        professorEmail: "badea@ase.ro",
+        professorAddress: "Ulumani 1, Bucuresti",
+        professorPhone: "0726232499",
+        professorSalary: 1256,
+        userId: null,
+        departmentId: 2
+    },
+    {
+        professorFirstName: "Buican",
+        professorLastName: "Rodica",
+        professorDob: moment("19/04/1990", "DD/MM/YYYY"),
+        professorEmail: "buican_lovistea@ase.ro",
+        professorAddress: "Ulumani 1, Bucuresti",
+        professorPhone: "0726232499",
+        professorSalary: 1256,
+        userId: null,
+        departmentId: 2
+    },
+    {
+        professorFirstName: "Petcu",
+        professorLastName: "Mariana",
+        professorDob: moment("19/04/1990", "DD/MM/YYYY"),
+        professorEmail: "petcu@ase.ro",
+        professorAddress: "Ulumani 1, Bucuresti",
+        professorPhone: "0726232499",
+        professorSalary: 1256,
+        userId: null,
+        departmentId: 2
+    },
+    {
+        professorFirstName: "Gava",
+        professorLastName: "Ion",
+        professorDob: moment("19/04/1990", "DD/MM/YYYY"),
+        professorEmail: "gava_ion@ase.ro",
+        professorAddress: "Ulumani 1, Bucuresti",
+        professorPhone: "0726232499",
+        professorSalary: 1256,
+        userId: null,
+        departmentId: 2
+    },
+    {
+        professorFirstName: "Popescu",
+        professorLastName: "Gratiela",
+        professorDob: moment("19/04/1990", "DD/MM/YYYY"),
+        professorEmail: "gratiela_popescu@ase.ro",
+        professorAddress: "Ulumani 1, Bucuresti",
+        professorPhone: "0726232499",
+        professorSalary: 1256,
+        userId: null,
+        departmentId: 2
+    },
+
 ];

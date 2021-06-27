@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
-require("./fillDatabase")();
 
 
 const port = process.env.PORT || 8000;
@@ -23,11 +22,18 @@ require("./routes/studyGroupRoutes")(app);
 require("./routes/studyYearRoutes")(app);
 require("./routes/departmentRoutes")(app);
 require("./routes/courseRoutes")(app);
+require("./routes/courseRoutes")(app);
 require("./routes/presenceRoutes")(app);
 require("./routes/markRoutes")(app);
 require("./routes/newsRoutes")(app);
 require("./routes/examRoutes")(app);
 require("./routes/documentRoutes")(app);
+
+require("./fillDatabase")();
+
+
+
+
 
 
 

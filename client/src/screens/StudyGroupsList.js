@@ -124,11 +124,11 @@ class StudyGroupList extends Component {
 
                     <div>
 
-                        {this.renderStudyGroups(this.state.studyGroups)}
+                        {this.state.studyGroups.length > 0 ? this.renderStudyGroups(this.state.studyGroups) : <div className="message">No study groups yet.</div>}
 
                     </div>
 
-                    {this.renderNavButtons()}
+                    {this.state.studyGroups.length > 0 ? this.renderNavButtons() : null}
 
                 </div>
 

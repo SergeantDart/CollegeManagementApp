@@ -80,10 +80,10 @@ class Document extends Component  {
                     <a id="doc_download_link" href={this.state.documentPath} download hidden>{this.state.document.documentStoragePath}</a>
                     <h2>
                         {this.state.document.documentTitle}
-                        <div className="sender">
+                        <div className="document_sender">
                             {`Sent from ${this.state.document.User.userEmail}`}
                         </div>
-                        <div className="message">
+                        <div className="document_message">
                             {this.state.document.documentDescription}
                         </div>
     

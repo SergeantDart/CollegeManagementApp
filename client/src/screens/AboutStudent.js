@@ -16,7 +16,7 @@ class AboutStudent extends Component {
     state = {
         edit: false,
         loading: true,
-        student: {},
+        student: null,
         courses: [],
         marks: [],
         presences: [],
@@ -387,7 +387,10 @@ class AboutStudent extends Component {
                 ?
                 <button onClick={() => this.editHandlle()}>EDIT</button>
                 :
-                <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                <div>
+                    <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                    <button onClick={(event) => this.cancelHandle()}>CANCEL</button>
+                </div>
     }
 
     gotToStudyGroupHandle = () => {
@@ -407,6 +410,37 @@ class AboutStudent extends Component {
                 </div>
                 :
                 null
+    }
+
+    cancelHandle = () => {
+        let tempFormData = this.state.formData;
+
+        for (var key of Object.keys(tempFormData)) {
+            tempFormData[key].value = this.state.student[key];
+            tempFormData[key].isValid = true;
+            tempFormData[key].config.disabled = true;
+            tempFormData[key].isBlurred = false;
+        }
+
+        tempFormData.studentDob.value = moment(this.state.student.studentDob).format("DD/MM/YYYY");
+        tempFormData.studentIsTaxed.defaultValue = this.state.student.studentIsTaxed == true ? 0 : 1;
+        tempFormData.studentIsTaxed.value = this.state.student.studentIsTaxed == true ? 0 : 1;
+
+        tempFormData.facultyId.defaultValue =this.state.student.facultyId;
+        tempFormData.facultyId.value = this.state.student.facultyId;
+
+        tempFormData.studyGroupId.defaultValue = this.state.student.studyGroupId;
+        tempFormData.studyGroupId.value = this.state.student.studyGroupId;
+
+            
+        tempFormData.studyYearId.defaultValue = this.state.student.studyYearId;
+        tempFormData.studyYearId.value = this.state.student.studyYearId;
+
+        this.setState({
+            formData: tempFormData,
+            edit: false,
+            error: ""
+        });
     }
 
     editHandlle = () => {
@@ -598,7 +632,7 @@ class AboutStudent extends Component {
 
 
     render() {
-        if(!this.state.loading) {
+        if(!this.state.loading && this.state.student) {
             return (
                 <div>
                     <div className="about_container">

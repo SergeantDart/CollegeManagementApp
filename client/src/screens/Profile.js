@@ -226,7 +226,7 @@ class Profile extends Component {
                     
                     <form>
     
-                        <h2>User profile</h2>
+                        <h1 id="profile_title">User profile</h1>
     
                         <FormField
                             id={"userEmail"}

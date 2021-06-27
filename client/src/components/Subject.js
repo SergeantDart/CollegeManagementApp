@@ -62,7 +62,7 @@ const Course = ({subject, history, dispatch, userRole}) => {
                 </div>
 
                 <div className={"score_distribution"}>
-                    {`PRACTICAL:  ${subject.subjectTheoryMarks}%`}
+                    {`PRACTICAL:  ${subject.subjectPracticalMarks}%`}
                 </div>
 
                 <div className={"optional"}>

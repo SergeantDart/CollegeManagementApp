@@ -55,7 +55,7 @@ class ChatMessage extends Component {
         if(this.state.loaded) {
             return (
                 <div className={this.props.message.user.userId == this.props.currentUserId ? "sent_message" : "received_message"}>
-                    <p><section>{`${this.state.userName}:`}</section> {`${this.props.message.text}`}</p>
+                    <p><section id="chat_message_username">{`${this.state.userName}:`}</section> {`${this.props.message.text}`}</p>
                 </div>
             )  
         } else {

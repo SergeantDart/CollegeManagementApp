@@ -147,12 +147,12 @@ class StudentsList extends Component {
 
                     <div>
 
-                        {this.renderLabels(this.state.labels)}
-                        {this.renderStudents(this.state.students)}
+                        {this.state.students.length > 0 ? this.renderLabels(this.state.labels) : <div className="message">No students yet.</div>}
+                        {this.state.students.length > 0 ? this.renderStudents(this.state.students) : null}
 
                     </div>
 
-                    {this.renderNavButtons()}
+                    {this.state.students.length > 0 ? this.renderNavButtons() : null}
 
                 </div>
 

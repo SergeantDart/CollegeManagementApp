@@ -63,11 +63,11 @@ class ExamsList extends Component {
             return (
                 <Exam key={exam.examId} exam={exam} aboutExam={this.aboutExam} deleteExam={this.deleteExam} type="info" userRole={this.props.users.login.user.userRole}/>
             );
-        })
+        });   
     }
 
     renderLabels = (labels) => {
-        return <Exam exam={labels} type="label"/>
+        return <Exam exam={labels} type="label" userRole={this.props.users.login.user.userRole}/>
     }
 
     renderAddExamButton = () => {
@@ -191,12 +191,12 @@ class ExamsList extends Component {
 
                     <div>
 
-                        {this.renderLabels(this.state.labels)}
-                        {this.renderExams(this.state.exams)}
+                        {this.state.exams.length > 0 ? this.renderLabels(this.state.labels) : <div className="message">No exams programmed yet.</div>}
+                        {this.state.exams.length > 0 ? this.renderExams(this.state.exams) : null}
 
                     </div>
 
-                    {!this.state.customList ? this.renderNavButtons() : null}
+                    {!this.state.customList && this.state.exams.length > 0 ? this.renderNavButtons() : null}
 
                 </div>
 

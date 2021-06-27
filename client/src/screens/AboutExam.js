@@ -12,7 +12,7 @@ class AboutExam extends Component {
 
     state = {
         edit: false,
-        exam: {},
+        exam: null,
         subject: {},
         courses: [],
         error: "",
@@ -220,7 +220,10 @@ class AboutExam extends Component {
                 ?
                 <button onClick={() => this.editHandlle()}>EDIT</button>
                 :
-                <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                <div>
+                    <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                    <button onClick={(event) => this.cancelHandle(event)}>CANCEL</button>
+                </div>
     }
 
     renderError = () => {
@@ -268,6 +271,30 @@ class AboutExam extends Component {
         )
     }
 
+    cancelHandle = () => {
+        let tempFormData = this.state.formData;
+
+        for (var key of Object.keys(tempFormData)) {
+            tempFormData[key].value = this.state.exam[key];
+            tempFormData[key].isValid = true;
+            tempFormData[key].config.disabled = true;
+            tempFormData[key].isBlurred = false;
+        }
+
+        tempFormData.examDate.value = moment(this.state.exam.examDate).format("DD/MM/YYYY");
+
+
+        tempFormData.courseId.defaultValue =this.state.exam.courseId;
+        tempFormData.courseId.value = this.state.exam.courseId;
+
+
+        this.setState({
+            formData: tempFormData,
+            edit: false,
+            error: ""
+        });
+    }
+
     editHandlle = () => {
         let tempFormData = this.state.formData;
         for(let key in tempFormData) {
@@ -300,20 +327,18 @@ class AboutExam extends Component {
             this.props.dispatch(updateExam(this.state.exam.examId, dataToSubmit));
             this.setState({
                 error: "",
-                loading: true
+                loading: true,
+                edit: false
             });
         }else {
             this.setState({
                 error: "Something must have happened..."
             });
         }
-        this.setState({
-            edit: false
-        });
     }
 
     render() {
-        if(!this.state.loading) {
+        if(!this.state.loading && this.state.exam) {
             return (
                 <div className="about_container">
                     <div className="about_left_container">

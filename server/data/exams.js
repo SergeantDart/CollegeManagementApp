@@ -2,19 +2,19 @@ const moment = require("moment");
 
 module.exports = [
     {
-        examDescription: "Blablabla",
+        examDescription: "About the exam",
         examDate: moment("24/03/2021", "DD/MM/YYYY"),
         examIsOnline: true,
         courseId: 1
     },
     {
-        examDescription: "Blablabla",
+        examDescription: "About the exam",
         examDate: moment("24/03/2021", "DD/MM/YYYY"),
         examIsOnline: true,
-        courseId: 2
+        courseId: 5
     },
     {
-        examDescription: "Blablabla",
+        examDescription: "About the exam",
         examDate: moment("24/03/2021", "DD/MM/YYYY"),
         examIsOnline: true,
         courseId: 3

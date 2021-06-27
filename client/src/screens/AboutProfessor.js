@@ -1,4 +1,4 @@
-import {Component} from "react";
+import {Component, useRef} from "react";
 import {getProfessor, updateProfessor, clearProfessor} from "../actions/professorActions";
 import {getDepartments, clearDepartments} from "../actions/departmentActions";
 import {getCoursesByProfessorId, clearCoursesList} from "../actions/coursesActions";
@@ -9,10 +9,11 @@ import {Link} from "react-router-dom";
 
 class AboutProfessor extends Component {
 
+    
     state = {
         edit: false,
         loading: true,
-        professor: {},
+        professor: null,
         courses: [],
         error: "",
         formData: {
@@ -270,11 +271,16 @@ class AboutProfessor extends Component {
     }
 
     renderButton = () => {
+
         return  this.state.edit === false
                 ?
                 <button onClick={() => this.editHandlle()}>EDIT</button>
                 :
-                <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                <div>
+                    <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                    <button onClick={(event) => this.cancelHandle(event)}>CANCEL</button>
+
+                </div>
     }
 
     renderError = () => {
@@ -287,7 +293,27 @@ class AboutProfessor extends Component {
                 null
     }
 
+    cancelHandle = () => {
+        let tempFormData = this.state.formData;
+
+        for (var key of Object.keys(tempFormData)) {
+            tempFormData[key].value = this.state.professor[key];
+            tempFormData[key].isValid = true;
+            tempFormData[key].config.disabled = true;
+            tempFormData[key].isBlurred = false;
+        }
+
+        tempFormData.professorDob.value = moment(this.state.professor.professorDob).format("DD/MM/YYYY");
+
+        this.setState({
+            formData: tempFormData,
+            edit: false,
+            error: ""
+        });
+    }
+
     editHandlle = () => {
+        document.body.click();
         let tempFormData = this.state.formData;
         for(let key in tempFormData) {
             tempFormData[key].config.disabled = false;
@@ -309,7 +335,7 @@ class AboutProfessor extends Component {
 
 
         for(let key in this.state.formData) {
-            isFormValid = isFormValid && this.state.formData[key].valid ? true : false;
+            isFormValid = isFormValid && this.state.formData[key].isValid ? true : false;
         }
 
         if(isFormValid) {
@@ -318,7 +344,8 @@ class AboutProfessor extends Component {
             this.props.dispatch(updateProfessor(this.state.professor.professorId, dataToSubmit));
             this.setState({
                 error: "",
-                loading: true
+                loading: true,
+                edit: false
             });
         }else {
             this.setState({
@@ -326,28 +353,31 @@ class AboutProfessor extends Component {
             });
         }
         this.setState({
-            edit: false
         });
     }
 
     renderCourses = (coursesList) => {
-        console.log(coursesList);
-        return coursesList.map(course => {
-            return (
-                <Link to={{
-                    pathname:`/course/${course.courseId}`,
-                    state: {fromDashboard: true }}}>
-                        <div className="professor_course">
-                            {`# ${course.courseName} with ${course.Professor.professorFirstName} `}
-                        </div>
-                    </Link>
-            )
-        })
+        if(coursesList.length > 0) {
+            return coursesList.map(course => {
+                return (
+                    <Link to={{
+                        pathname:`/course/${course.courseId}`,
+                        state: {fromDashboard: true }}}>
+                            <div className="professor_course">
+                                {`# ${course.courseName} with ${course.Professor.professorFirstName}, for study group no. ${course.studyGroupId} `}
+                            </div>
+                        </Link>
+                )
+            });
+        } else {
+            return <div className="message">No courses assigned to this professor yet.</div>
+        }
+
     }
 
 
     render() {
-        if(!this.state.loading) {
+        if(!this.state.loading && this.state.professor) {
             return (
                 <div className="about_container">
                     <div className="about_left_container">

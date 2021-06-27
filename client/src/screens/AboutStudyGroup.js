@@ -13,7 +13,7 @@ class AboutStudyGroup extends Component {
     state = {
         edit: false,
         loading: false,
-        studyGroup: {},
+        studyGroup: null,
         students: [],
         courses: [],
         error: "",
@@ -31,7 +31,7 @@ class AboutStudyGroup extends Component {
                 validation: {
                     required: true
                 },
-                valid: false,
+                isValid: false,
                 isBlurred: false,
                 validationMessage: ""
             },
@@ -49,7 +49,7 @@ class AboutStudyGroup extends Component {
                     required: true,
                     minLength: 6
                 },
-                valid: false,
+                isValid: false,
                 isBlurred: false,
                 validationMessage: ""
             },
@@ -65,7 +65,7 @@ class AboutStudyGroup extends Component {
                 validation: {
                     required: true,
                 },
-                valid: false,
+                isValid: false,
                 isBlurred: false,
                 validationMessage: ""
             },
@@ -81,7 +81,7 @@ class AboutStudyGroup extends Component {
                 validation: {
                     required: true,
                 },
-                valid: false,
+                isValid: false,
                 isBlurred: false,
                 validationMessage: ""
             }
@@ -129,12 +129,15 @@ class AboutStudyGroup extends Component {
             
                             for (var key of Object.keys(tempFormData)) {
                                 tempFormData[key].value = nextProps.studyGroups.studyGroup[key];
-                                tempFormData[key].valid = true;
+                                tempFormData[key].isValid = true;
                             }
             
             
                             tempFormData.facultyId.defaultValue = nextProps.studyGroups.studyGroup.facultyId;
                             tempFormData.facultyId.value = nextProps.studyGroups.studyGroup.facultyId;
+
+                            tempFormData.studyYearId.defaultValue = nextProps.studyGroups.studyGroup.studyYearId;
+                            tempFormData.studyYearId.value = nextProps.studyGroups.studyGroup.studyYearId;
     
                             tempFormData.facultyId.config.options = facultyOptions;
                             tempFormData.studyYearId.config.options = studyYearOptions;
@@ -220,7 +223,10 @@ class AboutStudyGroup extends Component {
                 ?
                 <button onClick={() => this.editHandlle()}>EDIT</button>
                 :
-                <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                <div>
+                    <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                    <button onClick={(event) => this.cancelHandle(event)}>CANCEL</button>
+                </div>
     }
 
     renderError = () => {
@@ -244,6 +250,29 @@ class AboutStudyGroup extends Component {
         });
     }
 
+    cancelHandle = () => {
+        let tempFormData = this.state.formData;
+
+        for (var key of Object.keys(tempFormData)) {
+            tempFormData[key].value = this.state.studyGroup[key];
+            tempFormData[key].isValid = true;
+            tempFormData[key].config.disabled = true;
+            tempFormData[key].isBlurred = false;
+        }
+            
+        tempFormData.studyYearId.defaultValue = this.state.studyGroup.studyYearId;
+        tempFormData.studyYearId.value = this.state.studyGroup.studyYearId;
+
+        tempFormData.facultyId.defaultValue = this.state.studyGroup.facultyId;
+        tempFormData.facultyId.value = this.state.studyGroup.facultyId;
+
+        this.setState({
+            formData: tempFormData,
+            edit: false,
+            error: ""
+        });
+    }
+
     saveHandle = (event) => {
         event.preventDefault();
         let dataToSubmit = {};
@@ -255,7 +284,7 @@ class AboutStudyGroup extends Component {
 
 
         for(let key in this.state.formData) {
-            isFormValid = isFormValid && this.state.formData[key].valid ? true : false;
+            isFormValid = isFormValid && this.state.formData[key].isValid ? true : false;
         }
 
         if(isFormValid) {
@@ -263,52 +292,58 @@ class AboutStudyGroup extends Component {
             this.props.dispatch(updateStudyGroup(this.state.studyGroup.studyGroupId, dataToSubmit));
             this.setState({
                 error: "",
-                loading: true
+                loading: true,
+                edit: false
             });
         }else {
             this.setState({
                 error: "Something must have happened..."
             });
         }
-        this.setState({
-            edit: false
-        });
     }
 
     renderStudents = (studentsList) => {
-        return studentsList.map(student => {
-            return (
-                <div className="studygroup_student">
-                    <Link to={{ 
-                                pathname:`/student/${student.studentId}`,
-                                state: {fromDashboard: true }}}>
-                            {`--- ${student.studentFirstName} ${student.studentLastName}`}
-                    </Link>
-                </div>
+        if(studentsList.length > 0) {
+            return studentsList.map(student => {
+                return (
+                    <div className="studygroup_student">
+                        <Link to={{ 
+                                    pathname:`/student/${student.studentId}`,
+                                    state: {fromDashboard: true }}}>
+                                {`--- ${student.studentFirstName} ${student.studentLastName}`}
+                        </Link>
+                    </div>
+    
+                )
+            });
+        } else {
+            return <div className="message">No students in this study group yet.</div>
+        }
 
-            )
-        })
     }
 
     renderCourses = (coursesList) => {
-        console.log(coursesList);
-        return coursesList.map(course => {
-            return (
-                <div className="studygroup_course">
-                        <Link to={{
-                        pathname:`/course/${course.courseId}`,
-                        state: {fromDashboard: true }}}>
-                                {`# ${course.courseName} with ${course.Professor.professorFirstName} ${course.Professor.professorLastName} `}
-                        </Link>
-                </div>
-
-            )
-        })
+        if(coursesList.length > 0) {
+            return coursesList.map(course => {
+                return (
+                    <div className="studygroup_course">
+                            <Link to={{
+                            pathname:`/course/${course.courseId}`,
+                            state: {fromDashboard: true }}}>
+                                    {`# ${course.courseName} with ${course.Professor.professorFirstName} ${course.Professor.professorLastName} `}
+                            </Link>
+                    </div>
+    
+                )
+            });
+        }else {
+            return <div className="message">This study group was not assigned courses yet.</div>
+        }     
     }
 
 
     render() {
-        if(!this.state.loading) {
+        if(!this.state.loading && this.state.studyGroup) {
             return (
                 <div className="about_container">
                     <div className="about_left_container">

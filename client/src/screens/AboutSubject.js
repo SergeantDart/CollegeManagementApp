@@ -9,7 +9,7 @@ class AboutSubject extends Component {
 
     state = {
         edit: false,
-        subject: {},
+        subject: null,
         courses: [],
         error: "",
         loading: false,
@@ -232,7 +232,10 @@ class AboutSubject extends Component {
                 ?
                 <button onClick={() => this.editHandlle()}>EDIT</button>
                 :
-                <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                <div>
+                    <button onClick={(event) => this.saveHandle(event)}>SAVE</button>
+                    <button onClick={(event) => this.cancelHandle(event)}>CANCEL</button>
+                </div>
     }
 
     renderError = () => {
@@ -249,7 +252,7 @@ class AboutSubject extends Component {
         return (
             <div className="more">
                 <h2>Courses: </h2>
-                {coursesList ? coursesList.map(course => {
+                {coursesList.length > 0 ? coursesList.map(course => {
                     return (
                         <div className="subject_course">
                             <Link to={{
@@ -261,10 +264,30 @@ class AboutSubject extends Component {
                     )
                 })
                 :
-                null}
+                <div className="message">No courses yet assigned with this subject.</div>}
             </div>
         )
 
+    }
+
+    cancelHandle = () => {
+        let tempFormData = this.state.formData;
+
+        for (var key of Object.keys(tempFormData)) {
+            tempFormData[key].value = this.state.subject[key];
+            tempFormData[key].isValid = true;
+            tempFormData[key].config.disabled = true;
+            tempFormData[key].isBlurred = false;
+        }
+
+        tempFormData.subjectIsOptional.defaultValue = this.state.subject.subjectIsOptional ? 0 : 1;
+        tempFormData.subjectIsOptional.value = this.state.subject.subjectIsOptional ? 0 : 1;
+
+        this.setState({
+            formData: tempFormData,
+            edit: false,
+            error: ""
+        });
     }
 
     editHandlle = () => {
@@ -305,6 +328,7 @@ class AboutSubject extends Component {
                 this.props.dispatch(updateSubject(this.state.subject.subjectId, dataToSubmit));
                 this.setState({
                     error: "",
+                    edit: false,
                     loading: true
                 });
             }else {
@@ -316,7 +340,7 @@ class AboutSubject extends Component {
     }
 
     render() {
-        if(!this.state.loading) {
+        if(!this.state.loading && this.state.subject) {
             return (
                 <div className="about_container">
                     <div className="about_left_container">

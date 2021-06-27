@@ -19,8 +19,6 @@ class NewsList extends Component {
         this.props.dispatch(countEsentials());
     }
 
-
-
     UNSAFE_componentWillReceiveProps(nextProps) {
         console.log(nextProps)
 
@@ -111,11 +109,11 @@ class NewsList extends Component {
 
                     <div>
 
-                        {this.renderNews(this.state.news)}
+                        {this.state.news.length > 0 ? this.renderNews(this.state.news) : <div className="message">No news published yet.</div>}
 
                     </div>
 
-                    {this.renderNavButtons()}
+                    {this.state.news.length > 0 ? this.renderNavButtons() : null}
 
                 </div>
 
