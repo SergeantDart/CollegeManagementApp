@@ -155,11 +155,13 @@ class CoursesList extends Component {
 
                     <h1>Courses list</h1>
 
-                    {this.props.users.login.user.userRole == "professor" ? this.renderProfessorCoursesButton() : null}
 
                     {this.props.users.login.user.userRole == "admin" ? this.renderAddCourseButton() : null}
 
-                    {this.props.users.login.user.userRole == "student" ? this.renderStudentCoursesButton() : null}
+                    {this.props.users.login.user.userRole == "professor" && this.state.courses.length > 0 ? this.renderProfessorCoursesButton() : null}
+
+
+                    {this.props.users.login.user.userRole == "student" && this.state.courses.length > 0 ? this.renderStudentCoursesButton() : null}
 
 
                     <div>

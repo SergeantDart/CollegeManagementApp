@@ -268,11 +268,16 @@ class AboutDepartment extends Component {
             return professorsList.map(professor => {
                 return (
                     <div className="department_professor">
+                        {this.props.users.login.user.userRole != "professor" ?
                         <Link to={{
                             pathname:`/professor/${professor.professorId}`,
                             state: {fromDashboard: true }}}>
                                 {`# ${professor.professorFirstName} ${professor.professorLastName}`}
                         </Link>
+                        :
+                        <div>
+                            {`# ${professor.professorFirstName} ${professor.professorLastName}`}
+                        </div>}
                     </div>
     
                 )
@@ -307,7 +312,7 @@ class AboutDepartment extends Component {
                             changeHandle={(formResponse) => this.updateForm(formResponse)}/>
 
 
-                        {this.renderButton()}
+                        {this.props.users.login.userRole == "admin" ? this.renderButton() : null}
                         {this.renderError()}
 
                     </div>

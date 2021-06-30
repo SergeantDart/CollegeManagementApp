@@ -35,14 +35,14 @@ class ChatMessage extends Component {
 
     componentWillReceiveProps(nextProps) {
         if(!this.state.loaded) {
-            if(nextProps.students.student) {
+            if(nextProps.students.student && this.props.message.user.userRole == "student") {
                 this.setState({
                     userName: `${nextProps.students.student.studentFirstName} ${nextProps.students.student.studentLastName}`,
                     loaded: true
                 });
             }
     
-            if(nextProps.professors.professor) {
+            if(nextProps.professors.professor && this.props.message.user.userRole == "professor") {
                 this.setState({
                     userName: `${nextProps.professors.professor.professorFirstName} ${nextProps.professors.professor.professorLastName}`,
                     loaded: true

@@ -399,7 +399,7 @@ module.exports = function(app) {
         Course.create({
             courseName: req.body.courseName,
             courseDescription: req.body.courseDescription,
-            courseTime: moment(req.body.courseTime, "DD/MM/YYYY"),
+            courseTime: moment(req.body.courseTime, "dddd HH:mm"),
             subjectId: req.body.subjectId,
             professorId: req.body.professorId,
             studyGroupId: req.body.studyGroupId

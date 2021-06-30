@@ -27,7 +27,18 @@ class Header extends Component {
                             cursor: "pointer"
                         }}    
                     />
-                    <span>College Management App</span>
+
+                    <span className="logo_container">
+                        <img id="logo" src="/images/college_logo.jpg"/>
+
+                        <Link to={{
+                            pathname: "/",
+                            state: {fromDashboard: true}}}>
+                                    College Management App
+                        </Link>
+                    </span>
+    
+
                 </div>
 
                 <Nav showNav={this.state.showNav} onHideNav={this.onHideNav}/>

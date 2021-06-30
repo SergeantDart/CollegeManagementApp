@@ -184,9 +184,9 @@ class ExamsList extends Component {
                     
                     {this.props.users.login.user.userRole == "admin" ? this.renderAddExamButton() : null}
 
-                    {this.props.users.login.user.userRole == "professor" ? this.renderProfessorExamsButton() : null}
+                    {this.props.users.login.user.userRole == "professor" && this.state.exams.length > 0 ? this.renderProfessorExamsButton() : null}
 
-                    {this.props.users.login.user.userRole == "student" ? this.renderStudentCoursesButton() : null}
+                    {this.props.users.login.user.userRole == "student" && this.state.exams.length > 0 ? this.renderStudentCoursesButton() : null}
 
 
                     <div>

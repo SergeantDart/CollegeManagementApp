@@ -173,7 +173,7 @@ class SendDocument extends Component {
             return (
                 <div className="send_document_container">
                     <form onSubmit={this.submitHandle}>
-                        <h2>Send document to administration</h2>
+                        <h1>Send document to administration</h1>
         
                         <FormField
                             id={"documentTitle"}

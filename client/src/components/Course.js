@@ -58,11 +58,16 @@ const Course = ({course, history, dispatch, userRole}) => {
 
                 <div className={"professor"}>
                     {`with `}
+                    {userRole == "admin" ?
                      <Link to={{ 
                         pathname:`/professor/${course.professorId}`,
                         state: {fromDashboard: true }}}>
                             {`${course.Professor.professorFirstName} ${course.Professor.professorLastName}`}
                     </Link>
+                    :
+                    <span>
+                       {`${course.Professor.professorFirstName} ${course.Professor.professorLastName}`} 
+                    </span>}
 
                 </div>
 

@@ -307,11 +307,17 @@ class AboutStudyGroup extends Component {
             return studentsList.map(student => {
                 return (
                     <div className="studygroup_student">
+                        {this.props.users.login.user.userRole != "student" ?
                         <Link to={{ 
-                                    pathname:`/student/${student.studentId}`,
-                                    state: {fromDashboard: true }}}>
-                                {`--- ${student.studentFirstName} ${student.studentLastName}`}
+                            pathname:`/student/${student.studentId}`,
+                            state: {fromDashboard: true }}}>
+                        {`--- ${student.studentFirstName} ${student.studentLastName}`}
                         </Link>
+                        :
+                        <div>
+                            {`--- ${student.studentFirstName} ${student.studentLastName}`}
+                        </div>
+                        }
                     </div>
     
                 )

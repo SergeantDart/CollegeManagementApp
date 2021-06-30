@@ -59,11 +59,7 @@ const Chat = (props) => {
 
 function mapStateToProps(state) {
     return (
-        <div>
-
-        </div>
-        
-
+        <div/>
     )
 }
 
