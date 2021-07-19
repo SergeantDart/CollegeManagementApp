@@ -10,7 +10,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 4550,
         userId: null,
-        departmentId: 1
+        departmentId: 5
     },
     {
         professorFirstName: "Murea",
@@ -21,7 +21,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 6676,
         userId: null,
-        departmentId: 1
+        departmentId: 5
     },
     {
         professorFirstName: "Sara",
@@ -32,7 +32,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 4512,
         userId: null,
-        departmentId: 2
+        departmentId: 15
     },
     {
         professorFirstName: "Ionela",
@@ -43,7 +43,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 1256,
         userId: null,
-        departmentId: 2
+        departmentId: 15
     },
     {
         professorFirstName: "Badea",
@@ -54,7 +54,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 1256,
         userId: null,
-        departmentId: 2
+        departmentId: 15
     },
     {
         professorFirstName: "Buican",
@@ -65,7 +65,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 1256,
         userId: null,
-        departmentId: 2
+        departmentId: 15
     },
     {
         professorFirstName: "Petcu",
@@ -76,7 +76,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 1256,
         userId: null,
-        departmentId: 2
+        departmentId: 15
     },
     {
         professorFirstName: "Gava",
@@ -87,7 +87,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 1256,
         userId: null,
-        departmentId: 2
+        departmentId: 15
     },
     {
         professorFirstName: "Popescu",
@@ -98,7 +98,7 @@ module.exports = [
         professorPhone: "0726232499",
         professorSalary: 1256,
         userId: null,
-        departmentId: 2
+        departmentId: 15
     },
 
 ];

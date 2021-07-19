@@ -1,7 +1,5 @@
 import SignIn from "./screens/SignIn";
 import SignOut from "./screens/SignOut";
-import Dashboard from "./screens/Dashboard";
-import Home from "./screens/Home";
 
 import AboutStudent from "./screens/AboutStudent";
 import AboutProfessor from "./screens/AboutProfessor";
@@ -38,6 +36,8 @@ import ProfessorOverview from "./screens/ProfessorOverview";
 import SendDocument from "./screens/SendDocument";
 import DocumentsList from "./screens/DocumentsList";
 
+import Chat from "./screens/Chat";
+import Dashboard from "./screens/Dashboard";
 
 
 
@@ -45,9 +45,9 @@ const roles = {admin: "admin", professor: "professor", student: "student"};
 
 export const permissionsConfig = [
     {
-        component: Home,
+        component: Dashboard,
         path: "/",
-        title: "Home",
+        title: "Dashboard",
         exact: true,
         permissions: [
             roles.admin,
@@ -65,7 +65,7 @@ export const permissionsConfig = [
         ]
     },
     {
-        component: DocumentsList,
+        component: SendDocument,
         path: "/send-document",
         title: "Send document",
         exact: true,
@@ -378,7 +378,7 @@ export const permissionsConfig = [
         ]
     },
     {
-        component: CharacterData,
+        component: Chat,
         path: "/chat",
         title: "Room chat",
         exact: true,

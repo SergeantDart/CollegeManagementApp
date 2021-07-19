@@ -36,8 +36,7 @@ class AddProfessor extends Component {
                     placeholder: "Professor last name..."
                 },
                 validation: {
-                    required: true,
-                    minLength: 6
+                    required: true
                 },
                 isValid: false,
                 isBlurred: false,
@@ -256,7 +255,8 @@ class AddProfessor extends Component {
         if(isFormValid) {
             document.body.click();
             this.setState({
-                error: ""
+                error: "",
+                loading: true
             });
             this.props.dispatch(addProfessor(dataToSubmit));
         }else {

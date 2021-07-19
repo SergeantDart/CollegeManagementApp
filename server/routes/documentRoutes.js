@@ -42,6 +42,28 @@ module.exports = function(app) {
         })
     });
 
+    app.get("/api/getFilteredDocuments", (req, res) => {
+        Document.findAll({include : [
+            {
+                model: User
+            }]})
+        .then(docs => {
+            if(docs) {
+                docs = docs.filter(doc => doc.documentTitle.startsWith(req.query.keyword) || doc.User.userEmail.startsWith(req.query.keyword));
+                res.json(docs);
+            }else {
+                res.json({
+                    message: "No documents found..."
+                })
+            }
+        }).catch(error => {
+            console.log(error);
+            res.json({
+                message: error.message
+            });
+        })
+    });
+
 
     app.get("/api/getDocument/:id", (req, res) => {
         Document.findByPk(req.params.id)

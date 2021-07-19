@@ -21,7 +21,7 @@ class SignIn extends Component {
                     required: true,
                     email: true
                 },
-                valid: false,
+                isValid: false,
                 isBlurred: false,
                 validationMessage: ""
             },
@@ -37,7 +37,7 @@ class SignIn extends Component {
                     required: true,
                     minLength: 6
                 },
-                valid: false,
+                isValid: false,
                 isBlurred: false,
                 validationMessage: ""
             }
@@ -90,12 +90,6 @@ class SignIn extends Component {
             error = !isValid ? [isValid, message] : error;
         }
 
-        if(data.validation.minLength) {
-            const isValid = data.value.length >= data.validation.minLength ? true : false;
-            const message = `${!isValid ? `This field must be at least ${data.validation.minLength} characters long !` : ""}`;
-            error = !isValid ? [isValid, message] : error;
-        }
-
         return error;
     }
 
@@ -103,9 +97,7 @@ class SignIn extends Component {
         return (
             this.state.isLoading 
             ? 
-            <div className="loading">
-                Loading...
-            </div>
+            <div className="loader"/>
             :
             <div>
                 <button onClick={(event) => this.submitHandle(event)}>Log in</button>

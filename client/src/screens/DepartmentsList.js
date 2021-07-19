@@ -1,17 +1,21 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {clearDepartments, clearDepartment, getDepartments} from "../actions/departmentActions";
+import {clearDepartments, clearDepartment, getDepartments, getFilteredDepartments} from "../actions/departmentActions";
 import {countEsentials} from "../actions/otherActions";
 import Department from "../components/Department";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class DepartmentsList extends Component {
     state = {
         departments: [],
         departmentsCount: 0,
         offset: 0,
-        limit: 5,
+        limit: 6,
         loaded: false,
-        dummy: false
+        dummy: false,
+        keyword: "",
+        navButtons: true
     }
 
     UNSAFE_componentWillMount() {
@@ -39,6 +43,14 @@ class DepartmentsList extends Component {
             if(nextProps.departments.deletedDepartment != null) {
                 window.location.reload();
                 this.props.dispatch(clearDepartment());
+            }
+
+            if(nextProps.departments.filteredDepartmentsList) {
+                this.setState({
+                    departments: nextProps.departments.filteredDepartmentsList.departmentsData,
+                    offset: 0,
+                    loaded: true
+                });
             }
         }
     }
@@ -95,6 +107,31 @@ class DepartmentsList extends Component {
         }
     }
 
+    changeHandle = (value) => {
+        this.setState({
+            keyword: value
+        });
+
+        this.props.dispatch(clearDepartments());
+
+        if(value != "") {
+            if(value.length >= 3 && this.state.keyword.length <= value.length) {
+                setTimeout(() => { 
+                    this.props.dispatch(getFilteredDepartments(value));
+                    this.setState({
+                        navButtons: false,
+                    });
+                }, 500);
+            }
+        } else {
+            this.props.dispatch(getDepartments(this.state.offset, this.state.limit));
+            this.setState({
+                navButtons: true,
+                loaded: false
+            });
+        }
+    }
+
     render() {
 
         if(this.state.loaded == true) {
@@ -105,13 +142,16 @@ class DepartmentsList extends Component {
 
                     {this.props.users.login.user.userRole == "admin" ? this.renderAddDepartmentButton() : null}
 
+                    <FontAwesomeIcon id="search_icon" icon={faSearch}/>
+                    <input className="search_input" value={this.state.keyword} onChange={(event) => this.changeHandle(event.target.value)} placeholder="Enter keyword..."/>
+
                     <div>
 
                         {this.state.departments.length > 0 ? this.renderDepartments(this.state.departments) : <div className="message">No departments yet.</div>}
 
                     </div>
 
-                    {this.state.departments.length > 0 ? this.renderNavButtons() : null} 
+                    {this.state.departments.length > 0 && this.state.navButtons ? this.renderNavButtons() : null} 
 
                 </div>
 

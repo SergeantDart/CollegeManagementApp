@@ -153,11 +153,11 @@ class AboutCourse extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        if(nextProps.courses.course) {
+        if(nextProps.professors.professorsList) {
             if(nextProps.studyGroups.studyGroupsList) {
                 if(nextProps.subjects.subjectsList) {
-                    if(nextProps.professors.professorsList) {
-                        if(nextProps.exams.exam) {
+                    if(nextProps.exams.exam) {
+                        if(nextProps.courses.course) {
 
                             let tempFormData = this.state.formData;
                             let studyGroupOptions = [];
@@ -233,32 +233,40 @@ class AboutCourse extends Component {
                                     });
                                 }
                             }
-                        }      
+                        }
+                        if(nextProps.courses.updatedCourse) {
+                            console.log(nextProps.courses.updatedCourse);
+                            if(nextProps.courses.updatedCourse.message) {
+                                this.setState({
+                                    error: nextProps.courses.updatedCourse.message
+                                });
+                            }else {
+                                let tempFormData = this.state.formData;
+                                for(var key of Object.keys(tempFormData)) {
+                                    tempFormData[key].config.disabled = true;
+                                }
+                                this.setState({
+                                    course: nextProps.courses.updatedCourse,
+                                    loading: false,
+                                    edit: false,
+                                    formData: tempFormData
+                                });
+                                window.location.reload();
+                            }
+                        }
+                        
+                        if(nextProps.marks.updatedMark != null) {
+                            this.props.dispatch(clearMark())
+                        }
+                
+                        if(nextProps.presenceSheets.presencesList) {
+                            this.setState({
+                                presences: nextProps.presenceSheets.presencesList,
+                                isPresenceListLoaded: true
+                            })
+                        }
                     }
                 }
-            }
-        }
-
-        if(nextProps.marks.updatedMark != null) {
-            window.location.reload();
-            this.props.dispatch(clearMark())
-        }
-
-        if(nextProps.presenceSheets.presencesList) {
-            this.setState({
-                presences: nextProps.presenceSheets.presencesList,
-                isPresenceListLoaded: true
-            })
-        }
-
-        if(nextProps.courses.updatedCourse) {
-            if(nextProps.courses.updatedCourse.message) {
-                this.setState({
-                    error: nextProps.courses.updatedCourse.message,
-                });
-            }else {
-                this.props.dispatch(clearCourse());
-                this.props.history.push("/courses-list");
             }
         }
     }
@@ -314,9 +322,9 @@ class AboutCourse extends Component {
 
         if(data.validation.courseTime) {
             var dateParts = data.value.split(" ");
-            var validDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+            var validDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-            const isValidDay = (validDays.indexOf(dateParts[0]) > 0) ? true : false;
+            const isValidDay = (validDays.indexOf(dateParts[0]) > -1) ? true : false;
             const isValidTime = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(dateParts[1]);
             
             const isValid = isValidDay & isValidTime;
@@ -410,6 +418,7 @@ class AboutCourse extends Component {
                 tempFormData[key].config.disabled = true;
             }
             dataToSubmit.courseTime = moment(dataToSubmit.courseTime, "dddd HH:mm");
+            this.props.dispatch(clearCourse());
             this.props.dispatch(updateCourse(this.state.course.courseId, dataToSubmit));
             this.setState({
                 formData: tempFormData,
@@ -579,7 +588,7 @@ class AboutCourse extends Component {
         if(!this.state.loading && this.state.course) {
             return (
                 <div>
-                    <div className="about_container">
+                    <div id="course" className="about_container">
                         <div className="about_left_container">
                         <FormField
                                 id={"courseName"}
@@ -631,7 +640,7 @@ class AboutCourse extends Component {
 
                     </div>
                     
-                    {this.props.users.login.user.userRole == "admin" || this.props.users.login.user.userRole == "professor" ? this.renderMarksInformation() : null}
+                    {this.props.users.login.user.userRole == "admin" || (this.props.users.login.user.userRole == "professor" && this.state.course.Professor.professorEmail == this.props.users.login.user.userEmail) ? this.renderMarksInformation() : null}
 
                     {this.renderExamInformation()}
 

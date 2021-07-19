@@ -227,10 +227,10 @@ class AboutStudent extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         console.log(nextProps);
         if(nextProps.faculties.facultiesList) {
-            if(nextProps.students.student) {
+            if(nextProps.courses.coursesList) {
                 if(nextProps.studyGroups.studyGroupsList) {
                     if(nextProps.studyYears.studyYearsList) {
-                        if(nextProps.courses.coursesList) {
+                        if(nextProps.students.student) {
                             if(this.props.users.login.user.userRole == "student" && this.props.users.login.user.userEmail != nextProps.students.student.studentEmail) {
                                 this.props.history.push("/not-found");
                             }
@@ -293,43 +293,47 @@ class AboutStudent extends Component {
                                 formData: tempFormData,
                                 loading: false
                             });
-                        }  
+                        }
+
+                        if(nextProps.students.updatedStudent) {
+                            if(nextProps.students.updatedStudent.message) {
+                                this.setState({
+                                    error: nextProps.students.updatedStudent.message
+                                });
+                            }else {
+                                let tempFormData = this.state.formData;
+                                for(var key of Object.keys(tempFormData)) {
+                                    tempFormData[key].config.disabled = true;
+                                }
+                                this.setState({
+                                    student: nextProps.students.updatedStudent,
+                                    loading: false,
+                                    edit: false,
+                                    formData: tempFormData
+                                });
+                                window.location.reload();
+                            }
+                        }
+                
+                        if(nextProps.marks.marksList != null) {
+                            console.log(nextProps);
+                            this.setState({
+                                marks: nextProps.marks.marksList,
+                                isMarksListLoaded: true
+                            })
+                        }
+                
+                        if(nextProps.presenceSheets.presencesList != null) {
+                            console.log(nextProps);
+                            this.setState({
+                                presences: nextProps.presenceSheets.presencesList,
+                                isPresenceListLoaded: true
+                            })
+                        }
                     }    
                 }  
             }
-
-            if(nextProps.students.updatedStudent) {
-                if(nextProps.students.updatedStudent.message) {
-                    let tempFormData = this.state.formData;
-                    for(var key of Object.keys(tempFormData)) {
-                        tempFormData[key].config.disabled = true;
-                    }
-                    this.setState({
-                        error: nextProps.students.updatedStudent.message,
-                        formData: tempFormData
-                    });
-                }else {
-                    this.props.dispatch(clearStudent());
-                    this.props.history.push("/students-list");
-                }
-            }
-
-            if(nextProps.marks.marksList != null) {
-                console.log(nextProps);
-                this.setState({
-                    marks: nextProps.marks.marksList,
-                    isMarksListLoaded: true
-                })
-            }
-
-            if(nextProps.presenceSheets.presencesList != null) {
-                console.log(nextProps);
-                this.setState({
-                    presences: nextProps.presenceSheets.presencesList,
-                    isPresenceListLoaded: true
-                })
-            }
-        }
+        }      
     }
 
     updateForm = (formResponse) => {
@@ -444,6 +448,7 @@ class AboutStudent extends Component {
     }
 
     editHandlle = () => {
+        document.body.click();
         let tempFormData = this.state.formData;
         for(let key in tempFormData) {
             tempFormData[key].config.disabled = false;
@@ -471,6 +476,7 @@ class AboutStudent extends Component {
         if(isFormValid) {
             document.body.click();
             dataToSubmit.studentDob = moment(dataToSubmit.studentDob, "DD/MM/YYYY");
+            this.props.dispatch(clearStudent());
             this.props.dispatch(updateStudent(this.state.student.studentId, dataToSubmit));
             this.setState({
                 error: "",
@@ -714,7 +720,6 @@ class AboutStudent extends Component {
                 <div className="loader"/>
             )
         }
-
     }
 }
 

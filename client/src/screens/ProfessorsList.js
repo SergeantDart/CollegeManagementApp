@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {getProfessors, deleteProfessor, clearProfessor} from "../actions/professorActions";
+import {getProfessors, deleteProfessor, clearProfessor, getFilteredProfessors, clearProfessors} from "../actions/professorActions";
 import {countEsentials} from "../actions/otherActions";
 import Professor from "../components/Professor";
 import Swal from "sweetalert2";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 class ProfessorsList extends Component {
@@ -23,9 +25,11 @@ class ProfessorsList extends Component {
         professors: [],
         professorsCount: 0,
         offset: 0,
-        limit: 5,
+        limit: 10,
         loaded: false,
-        dummy: false
+        dummy: false,
+        keyword: "",
+        navButtons: true
     }
 
 
@@ -52,6 +56,14 @@ class ProfessorsList extends Component {
         if(nextProps.professors.deletedProfessor) {
             window.location.reload();
             this.props.dispatch(clearProfessor());
+        }
+
+        if(nextProps.professors.filteredProfessorsList) {
+            this.setState({
+                professors: nextProps.professors.filteredProfessorsList.professorsData,
+                offset: 0,
+                loaded: true
+            });
         }
     }
 
@@ -128,7 +140,29 @@ class ProfessorsList extends Component {
         }
     }
 
+    changeHandle = (value) => {
+        this.setState({
+            keyword: value
+        });
 
+        this.props.dispatch(clearProfessors());
+        if(value != "") {
+            if(value.length >= 3 && this.state.keyword.length <= value.length) {
+                setTimeout(() => { 
+                    this.props.dispatch(getFilteredProfessors(value));
+                    this.setState({
+                        navButtons: false,
+                    });
+                }, 500);
+            }
+        } else {
+            this.props.dispatch(getProfessors(this.state.offset, this.state.limit));
+            this.setState({
+                loaded: false,
+                navButtons: true
+            });
+        }
+    }
 
     render() {
         if(this.state.loaded == true) {
@@ -139,6 +173,9 @@ class ProfessorsList extends Component {
                     
                     {this.props.users.login.user.userRole == "admin" ? this.renderAddProfessorButton() : null}
 
+                    <FontAwesomeIcon id="search_icon" icon={faSearch}/>
+                    <input className="search_input" value={this.state.keyword} onChange={(event) => this.changeHandle(event.target.value)} placeholder="Enter keyword..."/>
+
                     <div>
 
                         {this.state.professors.length > 0 ? this.renderLabels(this.state.labels) : null}
@@ -146,7 +183,7 @@ class ProfessorsList extends Component {
 
                     </div>
 
-                    {this.state.professors.length > 0 ? this.renderNavButtons() : null}
+                    {this.state.professors.length > 0 && this.state.navButtons ? this.renderNavButtons() : null}
 
                 </div>
 

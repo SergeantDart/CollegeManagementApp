@@ -33,6 +33,31 @@ module.exports = function(app) {
         })
     });
 
+    app.get("/api/getFilteredStudents", (req, res) => {
+        Student.findAll({include: [
+            {
+                model: StudyYear
+            },
+            {
+                model: Faculty
+            }]
+        }).then(students => {
+            if(students) {
+                students = students.filter(student => student.studentFirstName.startsWith(req.query.keyword) || student.studentLastName.startsWith(req.query.keyword));
+                res.json(students);
+            }else {
+                res.json({
+                    message: "No students found..."
+                })
+            }
+        }).catch(error => {
+            console.log(error);
+            res.json({
+                message: error.message
+            });
+        })
+    });
+
     app.get("/api/getStudentByEmail/:email", (req, res) => {
         Student.findOne({
             where: {
@@ -234,6 +259,16 @@ module.exports = function(app) {
                             message: error.message
                         });
                     })
+                } else {
+                    student.update(req.body)
+                    .then(student => {
+                        res.json(student);
+                    }).catch(error => {
+                        console.log(error);
+                        res.json({
+                            message: error.message
+                        })
+                    }); 
                 } 
             }else {
                 res.json({

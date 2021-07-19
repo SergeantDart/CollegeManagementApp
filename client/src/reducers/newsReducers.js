@@ -4,6 +4,8 @@ export default function news(state = {}, action) {
             return {...state, news: action.payload};
         case "NEWS_LIST":
             return {...state, newsList: action.payload};
+        case "FILTERED_NEWS_LIST":
+            return {...state, filteredNewsList: action.payload};
         case "GET_NEWS":
             return {...state, news: action.payload};
         case "UPDATE_NEWS":
@@ -11,7 +13,7 @@ export default function news(state = {}, action) {
         case "DELETE_NEWS":
             return {...state, deletedNews: action.payload};
         case "CLEAR_NEWS_LIST": 
-            return {...state, newsList: action.payload};
+            return {...state, newsList: action.payload, filteredNewsList: action.payload};
         case "CLEAR_NEWS":
             return {...state, news: action.payload, updatedNews: action.payload, deletedNews: action.payload};
         default:

@@ -255,7 +255,8 @@ class AddCourse extends Component {
         if(isFormValid) {
             document.body.click();
             this.setState({
-                error: ""
+                error: "",
+                loading: true
             });
             this.props.dispatch(addCourse(dataToSubmit));
         }else {

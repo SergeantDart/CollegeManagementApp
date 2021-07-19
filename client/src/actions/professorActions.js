@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function getProfessors(offset=0, limit=9999, type="") {
+export function getProfessors(offset=0, limit=9999) {
     return(dispatch) => {
         axios.get(`/api/getProfessors?offset=${offset}&limit=${limit}`)
         .then(professorsData => {
@@ -8,14 +8,33 @@ export function getProfessors(offset=0, limit=9999, type="") {
             const payload = {
                 professorsData,
                 offset,
-                limit,
-                type
+                limit
             };
             dispatch({
                 type: "PROFESSORS_LIST",
                 payload: payload
             });
         }).catch(error => {
+            console.log(error);
+        });
+    }
+}
+
+export function getFilteredProfessors(keyword="") {
+    return(dispatch) => {
+        axios.get(`/api/getFilteredProfessors?keyword=${keyword}`)
+        .then(professorsData => {
+            professorsData = professorsData.data;
+            const payload = {
+                professorsData,
+                keyword
+            };
+            dispatch({
+                type: "FILTERED_PROFESSORS_LIST",
+                payload: payload
+            });
+        })
+        .catch(error => {
             console.log(error);
         });
     }

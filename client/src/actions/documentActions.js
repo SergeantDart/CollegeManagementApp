@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export function getDocuments(offset=0, limit=9999, type="") {
+export function getDocuments(offset=0, limit=9999) {
     return(dispatch) => {
         axios.get(`/api/getDocuments?offset=${offset}&limit=${limit}`)
         .then(documentsData => {
@@ -9,11 +9,32 @@ export function getDocuments(offset=0, limit=9999, type="") {
             const payload = {
                 documentsData,
                 offset,
-                limit,
-                type
+                limit
+    
             };
             dispatch({
                 type: "DOCUMENTS_LIST",
+                payload: payload
+            });
+
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+}
+
+export function getFilteredDocuments(keyword = "") {
+    return(dispatch) => {
+        axios.get(`/api/getFilteredDocuments?keyword=${keyword}`)
+        .then(documentsData => {
+            documentsData = documentsData.data;
+            const payload = {
+                documentsData,
+                keyword
+            };
+            dispatch({
+                type: "FILTERED_DOCUMENTS_LIST",
                 payload: payload
             });
 

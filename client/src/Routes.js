@@ -80,6 +80,7 @@ const Routes = () => {
                     <Route path="/documents-list" exact component={Auth(DocumentsList, true)}/>
                     <Route path="/send-document" exact component={Auth(SendDocument, true)}/>
                     <Route path="/chat" exact component={Auth(Chat, true)}/>
+                    <Route component={NotFound}/>
                 </Switch>
         </Layout>
 

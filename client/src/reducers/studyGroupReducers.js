@@ -2,6 +2,8 @@ export default function studyGroups(state = {}, action) {
     switch(action.type) {
         case "STUDY_GROUPS_LIST":
             return {...state, studyGroupsList: action.payload};
+        case "FILTERED_STUDY_GROUPS_LIST": 
+            return {...state, filteredStudyGroupsList: action.payload};
         case "ADD_STUDY_GROUP":
             return {...state, studyGroup: action.payload};
         case "STUDY_GROUPS_MATCHED":
@@ -17,7 +19,7 @@ export default function studyGroups(state = {}, action) {
         case "CLEAR_STUDY_GROUP":
             return {...state, studyGroup: action.payload, updatedStudyGroup: action.payload, deletedStudyGroup: action.payload};
         case "CLEAR_STUDY_GROUPS":
-            return {...state, studyGroupsList: action.payload};
+            return {...state, studyGroupsList: action.payload, filteredStudyGroupsList: action.payload};
         case "DELETE_STUDY_GROUP":
             return {...state, deletedStudyGroup: action.payload};
         default:

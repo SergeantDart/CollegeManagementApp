@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export function getDepartments(offset=0, limit=9999, type="") {
+export function getDepartments(offset=0, limit=9999) {
     return(dispatch) => {
         axios.get(`/api/getDepartments?offset=${offset}&limit=${limit}`)
         .then(departmentsData => {
@@ -9,11 +9,31 @@ export function getDepartments(offset=0, limit=9999, type="") {
             const payload = {
                 departmentsData,
                 offset,
-                limit,
-                type
+                limit
             };
             dispatch({
                 type: "DEPARTMENTS_LIST",
+                payload: payload
+            });
+
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+}
+
+export function getFilteredDepartments(keyword = "") {
+    return(dispatch) => {
+        axios.get(`/api/getFilteredDepartments?keyword=${keyword}`)
+        .then(departmentsData => {
+            departmentsData = departmentsData.data;
+            const payload = {
+                departmentsData,
+                keyword
+            };
+            dispatch({
+                type: "FILTERED_DEPARTMENTS_LIST",
                 payload: payload
             });
 

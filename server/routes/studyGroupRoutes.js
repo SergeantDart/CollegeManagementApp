@@ -92,6 +92,31 @@ module.exports = function(app) {
         })
     });
 
+    app.get("/api/getFilteredStudyGroups", (req, res) => {
+        StudyGroup.findAll({include: [
+            {
+                model: Faculty
+            },
+            {
+                model: StudyYear
+            }]
+        }).then(studyGroups => {
+            if(studyGroups) {
+                studyGroups = studyGroups.filter(studyGroup => studyGroup.studyGroupId == parseInt(req.query.keyword) || studyGroup.Faculty.facultyName.startsWith(req.query.keyword));
+                res.json(studyGroups);
+            }else {
+                res.json({
+                    message: "No study groups found..."
+                })
+            }
+        }).catch(error => {
+            console.log(error);
+            res.json({
+                message: error.message
+            });
+        })
+    });
+
     app.get("/api/getStudyGroup/:id", (req, res) => {
         StudyGroup.findOne({where: {studyGroupId: req.params.id}}, {include : [
             {

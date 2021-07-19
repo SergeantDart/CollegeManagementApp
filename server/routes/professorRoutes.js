@@ -32,6 +32,28 @@ module.exports = function(app) {
         })
     });
 
+    app.get("/api/getFilteredProfessors", (req, res) => {
+        Professor.findAll({include: [
+            {
+                model: Department
+            }]
+        }).then(professors => {
+            if(professors) {
+                professors = professors.filter(professor => professor.professorFirstName.startsWith(req.query.keyword) || professor.professorLastName.startsWith(req.query.keyword));
+                res.json(professors);
+            }else {
+                res.json({
+                    message: "No professors found..."
+                })
+            }
+        }).catch(error => {
+            console.log(error);
+            res.json({
+                message: error.message
+            });
+        })
+    });
+
     app.get("/api/getProfessorsByDepartmentId/:id", (req, res) => {
         Professor.findAll({
             where: {

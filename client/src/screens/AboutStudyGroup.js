@@ -151,19 +151,26 @@ class AboutStudyGroup extends Component {
                                 loading: false
                             });
                         }
+                        if(nextProps.studyGroups.updatedStudyGroup) {
+                            if(nextProps.studyGroups.updatedStudyGroup.message) {
+                                this.setState({
+                                    error: nextProps.studyGroups.updatedStudyGroup.message
+                                });
+                            }else {
+                                let tempFormData = this.state.formData;
+                                for(var key of Object.keys(tempFormData)) {
+                                    tempFormData[key].config.disabled = true;
+                                }
+                                this.setState({
+                                    studyGroup: nextProps.studyGroups.updatedStudyGroup,
+                                    loading: false,
+                                    edit: false,
+                                    formData: tempFormData
+                                });
+                            }
+                        }
                     } 
                 }  
-            }
-
-            if(nextProps.studyGroups.updatedStudyGroup) {
-                if(nextProps.studyGroups.updatedStudyGroup.message) {
-                    this.setState({
-                        error: nextProps.studyGroups.updatedStudyGroup.message
-                    });
-                }else {
-                    this.props.dispatch(clearStudyGroup());
-                    this.props.history.push("/studygroups-list");
-                }
             }
         }
     }
@@ -242,7 +249,9 @@ class AboutStudyGroup extends Component {
     editHandlle = () => {
         let tempFormData = this.state.formData;
         for(let key in tempFormData) {
-            tempFormData[key].config.disabled = false;
+            if(key != "studyGroupId") {
+                tempFormData[key].config.disabled = false;
+            }
         }
         this.setState({
             formData: tempFormData,
@@ -289,6 +298,7 @@ class AboutStudyGroup extends Component {
 
         if(isFormValid) {
             document.body.click();
+            this.props.dispatch(clearStudyGroup());
             this.props.dispatch(updateStudyGroup(this.state.studyGroup.studyGroupId, dataToSubmit));
             this.setState({
                 error: "",

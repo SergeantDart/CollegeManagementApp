@@ -17,10 +17,10 @@ const Chat = (props) => {
 
     const [formValue, setFormValue] = useState();
 
-    const sendMessage = async(event) => {
+    const sendMessage = (event) => {
         event.preventDefault();
 
-        await messagesReference.add({
+        messagesReference.add({
             text: formValue,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
             user: props.users.login.user
@@ -36,7 +36,7 @@ const Chat = (props) => {
             <h1>Academic chat room</h1>
             <main>
                 {messages && messages.map(message =>
-                    <ChatMessage key={message.id} message={message} currentUser={props.users.login.user}/>
+                    <ChatMessage key={message.id} message={message}/>
                 )}
 
                 <span ref={dummy}></span>
@@ -53,14 +53,12 @@ const Chat = (props) => {
         </div>
     )
 
-    
-
 }
 
 function mapStateToProps(state) {
-    return (
-        <div/>
-    )
+    return {
+        users: state.users
+    }
 }
 
 

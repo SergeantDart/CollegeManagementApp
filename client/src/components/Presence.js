@@ -1,11 +1,13 @@
 import {Component} from "react";
+import {useRef} from "react";
 import {updatePresence, clearPresence} from "../actions/presenceSheetActions";
 import {connect} from "react-redux";
 
 class Presence extends Component {
 
     state = {
-        presenceStatus: null
+        presenceStatus: null,
+        disabled: false,
     }
 
 
@@ -14,26 +16,33 @@ class Presence extends Component {
             if(nextProps.presenceSheets.updatedPresence.message) {
                 window.alert(nextProps.presenceSheets.updatedPresence.message)
             }else {
-                window.alert("Updated succesfully")
+                this.setState({
+                    disabled: true,
+                })
             }
             this.props.dispatch(clearPresence());
         }
     }
     renderPresenceStatusOptions = () => {
         return <select
-                    value={this.state.presenceStatus}
-                    defaultValue={this.props.presence.presenceStatus || ""}
-                    name="presence_status"
-                    onChange={(event) => this.changeHandle(event)}>
+                value={this.state.presenceStatus}
+                defaultValue={this.props.presence.presenceStatus || ""}
+                disabled={this.state.disabled}
+                name="presence_status"
+                onChange={(event) => this.changeHandle(event)}>
 
-                        <option value="" disabled>Choose an option...</option>
-                        <option key={0} value={true}>{"Present"}</option>
-                        <option key={1} value={false}>{"Absent"}</option>
+                    <option value="" disabled>Choose an option...</option>
+                    <option key={0} value={true}>{"Present"}</option>
+                    <option key={1} value={false}>{"Absent"}</option>
 
-                </select>
+            </select>
     }
+
     saveHandle = (presenceId, presence) => {
         this.props.presence.presenceStatus = this.state.presenceStatus;
+        this.setState({
+            disabled: true
+        })
         this.props.dispatch(updatePresence(presenceId, presence))
 
     }

@@ -2,7 +2,7 @@ import {Component} from "react";
 import FormField from "../components/FormField";
 import {connect} from "react-redux";
 import Swal from "sweetalert2";
-import {clearMark} from "../actions/markActions";
+import {Link} from "react-router-dom";
 
 class Mark extends Component {
 
@@ -178,7 +178,7 @@ class Mark extends Component {
                         this.setState({
                             formData: tempFormData
                         });
-                        window.location.reload();
+                        //window.location.reload();
                     } 
                   })    
             }
@@ -212,7 +212,11 @@ class Mark extends Component {
                 <div>
                     <div className="mark_container">
                         <div className="student_name">
-                            {`${this.state.mark.Student.studentFirstName} ${this.state.mark.Student.studentLastName}`}
+                        <Link to={{
+                            pathname:`/student/${this.state.mark.Student.studentId}`,
+                            state: {fromDashboard: true }}}>
+                                {`${this.state.mark.Student.studentFirstName} ${this.state.mark.Student.studentLastName}`}
+                        </Link>
                         </div>
                         <div className="mark">
                             <div className="theory">

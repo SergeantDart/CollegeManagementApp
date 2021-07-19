@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {clearStudyGroups, getStudyGroups} from "../actions/studyGroupActions";
+import {clearStudyGroups, getStudyGroups, getFilteredStudyGroups} from "../actions/studyGroupActions";
 import {countEsentials} from "../actions/otherActions";
 import StudyGroup from "../components/StudyGroup";
 import {getStudentByEmail, clearStudent} from "../actions/studentActions";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 class StudyGroupList extends Component {
@@ -11,9 +13,11 @@ class StudyGroupList extends Component {
         studyGroups: [],
         studyGroupsCount: 0,
         offset: 0,
-        limit: 5,
+        limit: 6,
         loaded: false,
-        dummy: false
+        dummy: false,
+        keyword: "",
+        navButtons: true
     }
 
     UNSAFE_componentWillMount() {
@@ -40,6 +44,14 @@ class StudyGroupList extends Component {
             }
             if(nextProps.studyGroups.deletedStudyGroup != null) {
                 window.location.reload(false);
+            }
+
+            if(nextProps.studyGroups.filteredStudyGroupsList) {
+                this.setState({
+                    studyGroups: nextProps.studyGroups.filteredStudyGroupsList.studyGroupsData,
+                    offset: 0,
+                    loaded: true
+                });
             }
         }
 
@@ -109,6 +121,30 @@ class StudyGroupList extends Component {
         }
     }
 
+    changeHandle = (value) => {
+        this.setState({
+            keyword: value
+        });
+
+        this.props.dispatch(clearStudyGroups());
+        if(value != "") {
+            if((value.length >= 3 || !isNaN(value)) && this.state.keyword.length <= value.length) {
+                setTimeout(() => { 
+                    this.props.dispatch(getFilteredStudyGroups(value));
+                    this.setState({
+                        navButtons: false,
+                    });
+                }, 500);
+            }
+        } else {
+            this.props.dispatch(getStudyGroups(this.state.offset, this.state.limit));
+            this.setState({
+                navButtons: true,
+                loaded: false
+            });
+        }
+    }
+
     render() {
 
         if(this.state.loaded == true) {
@@ -121,6 +157,8 @@ class StudyGroupList extends Component {
 
                     {this.props.users.login.user.userRole == "student" ? this.renderFindMyStudyGroupButton() : null}
 
+                    <FontAwesomeIcon id="search_icon" icon={faSearch}/>
+                    <input className="search_input" value={this.state.keyword} onChange={(event) => this.changeHandle(event.target.value)} placeholder="Enter keyword..."/>
 
                     <div>
 
@@ -128,7 +166,7 @@ class StudyGroupList extends Component {
 
                     </div>
 
-                    {this.state.studyGroups.length > 0 ? this.renderNavButtons() : null}
+                    {this.state.studyGroups.length > 0 && this.state.navButtons ? this.renderNavButtons() : null}
 
                 </div>
 

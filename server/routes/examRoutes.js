@@ -100,6 +100,29 @@ module.exports = function(app) {;
         })
     });
 
+    app.get("/api/getFilteredExams", (req, res) => {
+        Exam.findAll({include: [
+            {
+                model: Course
+            }
+        ],})
+        .then(exams => {
+            if(exams) {
+                exams = exams.filter(exam => exam.Course.courseName.startsWith(req.query.keyword) || exam.Course.studyGroupId == parseInt(req.query.keyword));
+                res.json(exams);
+            }else {
+                res.json({
+                    message: "No exams found..."
+                })
+            }
+        }).catch(error => {
+            console.log(error);
+            res.json({
+                message: error.message
+            });
+        })
+    });
+
 
     app.post("/api/updateExam/:id", (req, res) => {
         Exam.findByPk(req.params.id)

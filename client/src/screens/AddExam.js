@@ -108,7 +108,7 @@ class AddExam extends Component {
             nextProps.courses.coursesList.coursesData.map((course) => {
                 courseOptions.push({
                     id: course.courseId,
-                    name: course.courseName
+                    name: `${course.courseName} with ${course.Professor.professorFirstName} ${course.Professor.professorLastName} - group no. ${course.studyGroupId}`
                 });
             });
 

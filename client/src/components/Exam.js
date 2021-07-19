@@ -49,6 +49,10 @@ const Exam = ({exam, type, aboutExam, deleteExam, userRole}) => {
             </div>
 
             <div className={className}>
+                {exam.Course.studyGroupId}
+            </div>
+
+            <div className={className}>
                 {exam.examDate == "Date" ? exam.examDate : moment(exam.examDate).format("DD/MM/YYYY")}
             </div>
 

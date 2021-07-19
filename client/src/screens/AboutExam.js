@@ -113,6 +113,10 @@ class AboutExam extends Component {
         console.log(nextProps);
         if(nextProps.courses.coursesList) {
             if(nextProps.subjects.subject) {
+                this.setState({
+                    subject: nextProps.subjects.subject
+                });
+
                 if(nextProps.exams.exam) {
                 
                     console.log(nextProps);
@@ -123,7 +127,7 @@ class AboutExam extends Component {
                     nextProps.courses.coursesList.coursesData.map((course) => {
                         courseOptions.push({
                             id: course.courseId,
-                            name: course.courseName
+                            name: `${course.courseName} - group no. ${course.studyGroupId}`
                         });
                     });
     
@@ -145,7 +149,6 @@ class AboutExam extends Component {
                     console.log(nextProps);
                     this.setState({
                         exam: nextProps.exams.exam,
-                        subject: nextProps.subjects.subject,
                         formData: tempFormData,
                         loading: false
                     });
@@ -158,8 +161,16 @@ class AboutExam extends Component {
                         error: nextProps.exams.updatedExam.message
                     });
                 }else {
-                    this.props.dispatch(clearExam());
-                    this.props.history.push("/exams-list");
+                    let tempFormData = this.state.formData;
+                    for(var key of Object.keys(tempFormData)) {
+                        tempFormData[key].config.disabled = true;
+                    }
+                    this.setState({
+                        exam: nextProps.exams.updatedExam,
+                        loading: false,
+                        edit: false,
+                        formData: tempFormData
+                    });
                 }
             }
         }
@@ -298,6 +309,7 @@ class AboutExam extends Component {
     editHandlle = () => {
         let tempFormData = this.state.formData;
         for(let key in tempFormData) {
+            if(key != "courseId")
             tempFormData[key].config.disabled = false;
         }
         this.setState({
@@ -324,6 +336,7 @@ class AboutExam extends Component {
             document.body.click();
             dataToSubmit.examDate = moment(dataToSubmit.examDate, "DD/MM/YYYY");
             dataToSubmit.examIsOnline = dataToSubmit.examIsOnline == 0 ? true : false;
+            this.props.dispatch(clearExam());
             this.props.dispatch(updateExam(this.state.exam.examId, dataToSubmit));
             this.setState({
                 error: "",

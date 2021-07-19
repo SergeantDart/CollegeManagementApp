@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {deleteStudent, getStudents, clearStudent, clearStudents} from "../actions/studentActions";
+import {deleteStudent, getStudents, clearStudent, clearStudents, getFilteredStudents, clearStudentsList} from "../actions/studentActions";
 import {countEsentials} from "../actions/otherActions";
 import Student from "../components/Student";
 import Swal from "sweetalert2";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 class StudentsList extends Component {
@@ -27,19 +29,19 @@ class StudentsList extends Component {
         students: [],
         studentsCount: 0,
         offset: 0,
-        limit: 5,
+        limit: 10,
         loaded: false,
-        dummy: false
+        dummy: false,
+        navButtons: true,
+        keyword: ""
     }
 
-    data = {
-        studentsCount: 0
-    }
 
     UNSAFE_componentWillMount() {
         this.props.dispatch(clearStudents());
         this.props.dispatch(getStudents(this.state.offset, this.state.limit));
         this.props.dispatch(countEsentials());
+
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -57,6 +59,12 @@ class StudentsList extends Component {
             if(nextProps.students.deletedStudent) {
                 window.location.reload();
                 this.props.dispatch(clearStudent());
+            }
+            if(nextProps.students.filteredStudentsList) {
+                this.setState({
+                    students: nextProps.students.filteredStudentsList.studentsData,
+                    loaded: true
+                });
             }
         }
     }
@@ -96,6 +104,8 @@ class StudentsList extends Component {
         )
     }
 
+    
+
     aboutStudent = (studentId) => {
         this.props.history.push(`/student/${studentId}`);
     }
@@ -134,6 +144,46 @@ class StudentsList extends Component {
         }
     }
 
+    updateForm = (formResponse) => {
+        let newFormData = {...this.state.formData}
+        let newElement = {...newFormData[formResponse.id]};
+
+        newElement.value = formResponse.event.target.value;
+
+        newFormData[formResponse.id] = newElement;
+        this.setState({
+            formData: newFormData
+        });
+    }
+
+    renderFindButton = () => {
+        return <button className="find_button" onClick={() => {}}>FIND</button>
+    }
+
+    changeHandle = (value) => {
+        this.setState({
+            keyword: value
+        });
+
+        this.props.dispatch(clearStudentsList());
+        if(value != "") {
+            if(value.length >= 3 && this.state.keyword.length <= value.length) {
+                setTimeout(() => { 
+                    this.props.dispatch(getFilteredStudents(value));
+                    this.setState({
+                        navButtons: false,
+                    });
+                }, 500);
+            }
+        } else {
+            this.props.dispatch(getStudents(this.state.offset, this.state.limit));
+            this.setState({
+                loaded: false,
+                navButtons: true
+            });
+        }
+    }
+
 
 
     render() {
@@ -145,6 +195,9 @@ class StudentsList extends Component {
 
                     {this.props.users.login.user.userRole == "admin" ? this.renderAddStudentButton() : null}
 
+                    <FontAwesomeIcon id="search_icon" icon={faSearch}/>
+                    <input className="search_input" value={this.state.keyword} onChange={(event) => this.changeHandle(event.target.value)} placeholder="Enter keyword..."/>
+
                     <div>
 
                         {this.state.students.length > 0 ? this.renderLabels(this.state.labels) : <div className="message">No students yet.</div>}
@@ -152,7 +205,7 @@ class StudentsList extends Component {
 
                     </div>
 
-                    {this.state.students.length > 0 ? this.renderNavButtons() : null}
+                    {this.state.students.length > 0 && this.state.navButtons ? this.renderNavButtons() : null}
 
                 </div>
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export function getStudyGroups(offset=0, limit=999999, type="") {
+export function getStudyGroups(offset=0, limit=999999) {
     return(dispatch) => {
         axios.get(`/api/getStudyGroups?offset=${offset}&limit=${limit}`)
         .then(studyGroupsData => {
@@ -9,11 +9,29 @@ export function getStudyGroups(offset=0, limit=999999, type="") {
             const payload = {
                 studyGroupsData,
                 offset,
-                limit,
-                type
+                limit
             };
             dispatch({
                 type: "STUDY_GROUPS_LIST",
+                payload: payload
+            });
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+}
+
+export function getFilteredStudyGroups(keyword = "") {
+    return(dispatch) => {
+        axios.get(`/api/getFilteredStudyGroups?keyword=${keyword}`)
+        .then(studyGroupsData => {
+            studyGroupsData= studyGroupsData.data;
+            const payload = {
+                studyGroupsData,
+                keyword
+            };
+            dispatch({
+                type: "FILTERED_STUDY_GROUPS_LIST",
                 payload: payload
             });
         }).catch(error => {

@@ -138,8 +138,8 @@ class AboutSubject extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         console.log(nextProps);
 
-        if(nextProps.subjects.subject) {
-            if(nextProps.courses.coursesList) {
+        if(nextProps.courses.coursesList) {
+            if(nextProps.subjects.subject) {
 
             
                 let tempFormData = this.state.formData; 
@@ -161,20 +161,26 @@ class AboutSubject extends Component {
                 });                 
                   
             }
-            
-            
-        }
 
-        if(nextProps.subjects.updatedSubject) {
-            if(nextProps.subjects.updatedSubject.message) {
-                this.setState({
-                    error: nextProps.subjects.updatedSubject.message
-                });
-            }else {
-                this.props.dispatch(clearSubject());
-                this.props.history.push("/subjects-list");
-            }
-        }            
+            if(nextProps.subjects.updatedSubject) {
+                if(nextProps.subjects.updatedSubject.message) {
+                    this.setState({
+                        error: nextProps.subjects.updatedSubject.message
+                    });
+                }else {
+                    let tempFormData = this.state.formData;
+                    for(var key of Object.keys(tempFormData)) {
+                        tempFormData[key].config.disabled = true;
+                    }
+                    this.setState({
+                        subject: nextProps.subjects.updatedSubject,
+                        loading: false,
+                        edit: false,
+                        formData: tempFormData
+                    });
+                }
+            }        
+        }           
     }
 
     updateForm = (formResponse) => {
@@ -254,11 +260,11 @@ class AboutSubject extends Component {
                 <h2>Courses: </h2>
                 {coursesList.length > 0 ? coursesList.map(course => {
                     return (
-                        <div className="subject_course">
+                        <div key={course.courseId} className="subject_course">
                             <Link to={{
                                 pathname:`/course/${course.courseId}`,
                                 state: {fromDashboard: true }}}>
-                                    {`# ${course.courseName} with ${course.Professor.professorFirstName} ${course.Professor.professorLastName} `}
+                                    {`# ${course.courseName} with ${course.Professor.professorFirstName} ${course.Professor.professorLastName} - group no. ${course.studyGroupId}`}
                             </Link>
                         </div>
                     )
@@ -323,8 +329,7 @@ class AboutSubject extends Component {
         } else {
             if(isFormValid) {
                 document.body.click();
-    
-                console.log(dataToSubmit);
+                this.props.dispatch(clearSubject());
                 this.props.dispatch(updateSubject(this.state.subject.subjectId, dataToSubmit));
                 this.setState({
                     error: "",

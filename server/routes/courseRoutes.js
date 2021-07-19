@@ -38,6 +38,34 @@ module.exports = function(app) {
         })
     });
 
+    app.get("/api/getFilteredCourses", (req, res) => {
+        Course.findAll({include: [
+            {
+                model: StudyGroup
+            },
+            {
+                model: Professor
+            },
+            {
+                model: Subject
+            }
+        ]})
+        .then(courses => {
+            if(courses) {
+                courses = courses.filter(course => course.courseName.startsWith(req.query.keyword) || course.Professor.professorFirstName.startsWith(req.query.keyword) || course.Professor.professorLastName.startsWith(req.query.keyword) || course.Subject.subjectName.startsWith(req.query.keyword));
+                res.json(courses);
+            }else {
+                res.json({
+                    message: "No courses found..."
+                });
+            }
+        }).catch(error => {
+            res.json({
+                message: error.message
+            });
+        })
+    });
+
     app.get("/api/getCoursesByStudyGroup/:id", (req, res) => {
         Course.findAll({include: [
             {
@@ -294,11 +322,30 @@ module.exports = function(app) {
                 }
                 course.update(req.body)
                 .then(course => {
-                    res.json(course);
-                }).catch(error => {
-                    res.json({
-                        message: error.message
-                    });
+                    Course.findByPk(course.courseId,
+                    {
+                        include: [
+                        {
+                            model: StudyGroup,
+                            required: true
+                        },
+                        {
+                            model: Professor,
+                            required: true
+                        },
+                        {
+                            model: Subject,
+                            required: true
+                        }
+                    ]}).then(course => {
+                        if(course) {
+                            res.json(course);
+                        } else {
+                            res.json({
+                                message: "No course was found..."
+                            })
+                        }
+                    })
                 })
             }else {
                 res.json({

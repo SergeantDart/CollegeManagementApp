@@ -59,7 +59,7 @@ const Student = sequelize.define("Student", {
         studyYearId: {
             type: DataTypes.INTEGER,
             allowNull: true,
-            defaultValue: 1
+            defaultValue: 5
         }
     }, {
     hooks: {
@@ -71,7 +71,7 @@ const Student = sequelize.define("Student", {
                         User.create({
                             userEmail: student.studentEmail,
                             userPassword: "123456",
-                            userRoleId: 3
+                            userRoleId: 25
                         }).then(user => {
                             student.userId = user.userId;
                             resolve();

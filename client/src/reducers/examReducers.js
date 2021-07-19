@@ -6,6 +6,8 @@ export default function exams(state = {}, action) {
             return {...state, examsList: action.payload};
         case "FILTERED_EXAMS_LIST":
             return {...state, filteredExamsList: action.payload};
+        case "KEYWORD_FILTERED_EXAMS_LIST":
+            return {...state, keywordFilteredExamsList: action.payload};
         case "GET_EXAM":
             return {...state, exam: action.payload};
         case "UPDATE_EXAM":
@@ -15,7 +17,7 @@ export default function exams(state = {}, action) {
         case "CLEAR_EXAM":
             return {...state, exam: action.payload, updatedExam: action.payload, deletedExam: action.payload};
         case "CLEAR_EXAMS_LIST":
-            return {...state, examsList: action.payload, filteredExamsList: action.payload};
+            return {...state, examsList: action.payload, filteredExamsList: action.payload, keywordFilteredExamsList: action.payload};
         default:
             return state;
     }

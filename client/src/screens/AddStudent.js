@@ -37,8 +37,7 @@ class AddStudent extends Component {
                     placeholder: "Student last name..."
                 },
                 validation: {
-                    required: true,
-                    minLength: 6
+                    required: true
                 },
                 valid: false,
                 isBlurred: false,
@@ -296,7 +295,8 @@ class AddStudent extends Component {
         if(isFormValid) {
             document.body.click();
             this.setState({
-                error: ""
+                error: "",
+                loading: true
             });
             this.props.dispatch(addStudent(dataToSubmit));
         }else {

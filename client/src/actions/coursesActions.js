@@ -15,7 +15,8 @@ export function addCourse(course) {
         })
     }
 }
-export function getCourses(offset=0, limit=9999, type="") {
+
+export function getCourses(offset=0, limit=9999) {
        return(dispatch) => {
            axios.get(`/api/getCourses?offset=${offset}&limit=${limit}`)
            .then(coursesData => {
@@ -23,8 +24,7 @@ export function getCourses(offset=0, limit=9999, type="") {
                const payload = {
                    coursesData,
                    offset,
-                   limit,
-                   type
+                   limit
                };
                dispatch({
                    type: "COURSES_LIST",
@@ -34,6 +34,25 @@ export function getCourses(offset=0, limit=9999, type="") {
                console.log(error);
            })
        } 
+}
+
+export function getFilteredCourses(keyword = "") {
+    return(dispatch) => {
+        axios.get(`/api/getFilteredCourses?keyword=${keyword}`)
+        .then(coursesData => {
+            coursesData = coursesData.data;
+            const payload = {
+                coursesData,
+                keyword
+            };
+            dispatch({
+                type: "KEYWORD_FILTERED_COURSES_LIST",
+                payload: payload
+            });
+        }).catch(error => {
+            console.log(error);
+        })
+    } 
 }
 
 export function getCoursesBySubjectId(id) {

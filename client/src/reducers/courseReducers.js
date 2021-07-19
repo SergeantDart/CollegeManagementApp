@@ -4,6 +4,8 @@ export default function courses(state = {}, action) {
             return {...state, course: action.payload};
         case "COURSES_LIST":
             return {...state, coursesList: action.payload};
+        case "KEYWORD_FILTERED_COURSES_LIST":
+            return {...state, keywordFilteredCoursesList: action.payload}
         case "FILTERED_COURSES_LIST":
             return {...state, filteredCoursesList: action.payload};
         case "GET_COURSE":
@@ -16,7 +18,7 @@ export default function courses(state = {}, action) {
             return {...state, course: action.payload, updatedCourse: action.payload, deletedCourse: action.payload}
 
         case "CLEAR_COURSES_LIST":
-            return {...state, coursesList: action.payload, filteredCoursesList: action.payload};
+            return {...state, coursesList: action.payload, filteredCoursesList: action.payload, keywordFilteredCoursesList: action.payload};
         default:
             return state;
     }

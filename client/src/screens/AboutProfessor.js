@@ -157,6 +157,7 @@ class AboutProfessor extends Component {
     UNSAFE_componentWillMount() {
         this.props.dispatch(clearDepartments());
         this.props.dispatch(clearCoursesList());
+        this.props.dispatch(clearProfessor());
 
         this.props.dispatch(getDepartments());
         this.props.dispatch(getCoursesByProfessorId(this.props.match.params.id));
@@ -204,20 +205,27 @@ class AboutProfessor extends Component {
                         loading: false
                     }); 
                 }
-    
-            }
-            
-            if(nextProps.professors.updatedProfessor) {
-                if(nextProps.professors.updatedProfessor.message) {
-                    this.setState({
-                        error: nextProps.professors.updatedProfessor.message
-                    });
-                }else {
-                    this.props.dispatch(clearProfessor());
-                    this.props.history.push("/professors-list");
+
+                if(nextProps.professors.updatedProfessor) {
+                    if(nextProps.professors.updatedProfessor.message) {
+                        this.setState({
+                            error: nextProps.professors.updatedProfessor.message
+                        });
+                    }else {
+                        let tempFormData = this.state.formData;
+                        for(var key of Object.keys(tempFormData)) {
+                            tempFormData[key].config.disabled = true;
+                        }
+                        this.setState({
+                            professor: nextProps.professors.updatedProfessor,
+                            loading: false,
+                            edit: false,
+                            formData: tempFormData
+                        });
+                    }
                 }
             }
-        }
+        }     
     }
 
     updateForm = (formResponse) => {
@@ -303,6 +311,7 @@ class AboutProfessor extends Component {
             tempFormData[key].isBlurred = false;
         }
 
+        
         tempFormData.professorDob.value = moment(this.state.professor.professorDob).format("DD/MM/YYYY");
 
         this.setState({
@@ -341,6 +350,7 @@ class AboutProfessor extends Component {
         if(isFormValid) {
             document.body.click();
             dataToSubmit.professorDob = moment(dataToSubmit.professorDob, "DD/MM/YYYY");
+            this.props.dispatch(clearProfessor());
             this.props.dispatch(updateProfessor(this.state.professor.professorId, dataToSubmit));
             this.setState({
                 error: "",
@@ -352,8 +362,6 @@ class AboutProfessor extends Component {
                 error: "Something must have happened..."
             });
         }
-        this.setState({
-        });
     }
 
     renderCourses = (coursesList) => {
@@ -364,7 +372,7 @@ class AboutProfessor extends Component {
                         pathname:`/course/${course.courseId}`,
                         state: {fromDashboard: true }}}>
                             <div className="professor_course">
-                                {`# ${course.courseName} with ${course.Professor.professorFirstName}, for study group no. ${course.studyGroupId} `}
+                                {`# ${course.courseName}, for study group no. ${course.studyGroupId} `}
                             </div>
                         </Link>
                 )

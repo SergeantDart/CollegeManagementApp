@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export function getStudents(offset=0, limit=9999, type="") {
+export function getStudents(offset=0, limit=9999) {
     return(dispatch) => {
         axios.get(`/api/getStudents?offset=${offset}&limit=${limit}`)
         .then(studentsData => {
@@ -9,11 +9,31 @@ export function getStudents(offset=0, limit=9999, type="") {
             const payload = {
                 studentsData,
                 offset,
-                limit,
-                type
+                limit
             };
             dispatch({
                 type: "STUDENTS_LIST",
+                payload: payload
+            });
+
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+}
+
+export function getFilteredStudents(keyword="") {
+    return(dispatch) => {
+        axios.get(`/api/getFilteredStudents?keyword=${keyword}`)
+        .then(studentsData => {
+            studentsData = studentsData.data;
+            const payload = {
+                studentsData,
+                keyword
+            };
+            dispatch({
+                type: "FILTERED_STUDENTS_LIST",
                 payload: payload
             });
 

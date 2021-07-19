@@ -7,23 +7,28 @@ class ChatMessage extends Component {
 
     state = {
         userName: "",
-        loaded: false
+        loaded: false,
+        message: {}
     }
 
     componentWillMount() {
         this.props.dispatch(clearProfessor());
         this.props.dispatch(clearStudent());
 
-        if(this.props.message.user.userId == this.props.currentUser.userId) {
+        this.setState({
+            message: this.props.message
+        });
+
+        if(this.props.message.user.userId == this.props.users.login.user.userId) {
             this.setState({
                 userName: "Me",
-                loaded: true
+                loaded: true            
             });
         }else {
             if(this.props.message.user.userRole == "admin") {
                 this.setState({
                     userName: "ADMIN",
-                    loaded: true
+                    loaded: true                
                 });
             }else if(this.props.message.user.userRole == "professor") {
                 this.props.dispatch(getProfessorByEmail(this.props.message.user.userEmail));
@@ -33,20 +38,26 @@ class ChatMessage extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.dispatch(clearProfessor());
+        this.props.dispatch(clearStudent());
+    }
+
     componentWillReceiveProps(nextProps) {
-        if(!this.state.loaded) {
-            if(nextProps.students.student && this.props.message.user.userRole == "student") {
+
+        if(nextProps.students.student && this.props.message.user.userRole == "student") {
+            if(nextProps.message.user.userEmail == nextProps.students.student.studentEmail) {
                 this.setState({
                     userName: `${nextProps.students.student.studentFirstName} ${nextProps.students.student.studentLastName}`,
                     loaded: true
                 });
-            }
-    
-            if(nextProps.professors.professor && this.props.message.user.userRole == "professor") {
+            }   
+        } else if(nextProps.professors.professor && this.props.message.user.userRole == "professor") {
+            if(nextProps.message.user.userEmail == nextProps.professors.professor.professorEmail) {
                 this.setState({
                     userName: `${nextProps.professors.professor.professorFirstName} ${nextProps.professors.professor.professorLastName}`,
                     loaded: true
-                });
+                }); 
             }
         }
     }
@@ -69,6 +80,7 @@ class ChatMessage extends Component {
 
 function mapStateToProps(state) {
     return {
+        users: state.users,
         students: state.students,
         professors: state.professors
     }

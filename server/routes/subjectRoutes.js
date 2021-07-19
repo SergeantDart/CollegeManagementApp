@@ -43,6 +43,25 @@ module.exports = function(app) {
         })
     });
 
+    app.get("/api/getFilteredSubjects", (req, res) => {
+        Subject.findAll()
+        .then(subjects => {
+            if(subjects) {
+                subjects = subjects.filter(subject => subject.subjectName.startsWith(req.query.keyword));
+                res.json(subjects);
+            }else {
+                res.json({
+                    message: "No subjects found..."
+                })
+            }
+        }).catch(error => {
+            console.log(error);
+            res.json({
+                message: error.message
+            });
+        })
+    });
+
 
     app.get("/api/getSubject/:id", (req, res) => {
         Subject.findByPk(req.params.id)

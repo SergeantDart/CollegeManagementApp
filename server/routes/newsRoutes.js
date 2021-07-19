@@ -36,6 +36,26 @@ module.exports = function(app) {
         })
     });
 
+    app.get("/api/getFilteredNews", (req, res) => {
+        News.findAll({order: [['updatedAt', 'DESC']]})
+        .then(news => {
+            if(news) {
+                news = news.filter(news => news.newsAuthorName.startsWith(req.query.keyword) || news.newsTitle.startsWith(req.query.keyword));
+                res.json(news);
+            }else {
+                res.json({
+                    message: "No news found..."
+                })
+            }
+        }).catch(error => {
+            console.log(error);
+            res.json({
+                message: error.message
+            });
+        })
+    });
+
+
     app.get("/api/getNews/:id", (req, res) => {
         News.findByPk(req.params.id)
         .then(news => {

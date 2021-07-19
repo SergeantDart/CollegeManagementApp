@@ -34,6 +34,7 @@ const courses = require("./data/courses");
 const exams = require("./data/exams");
 const users = require("./data/users");
 const news = require("./data/news");
+const documents = require("./data/documents");
 
 module.exports = function() {
     sequelize.query("SET FOREIGN_KEY_CHECKS = 0")
@@ -59,7 +60,7 @@ module.exports = function() {
             if(courses) {
                 courses.map(course => {
                     request({
-                        url: "http://localhost:8000/api/addCourse",
+                        url: "https://collegemanagementapp.herokuapp.com/api/addCourse",
                         method: "POST",
                         headers: "Accept: application/json",
                         json: true,
@@ -74,9 +75,10 @@ module.exports = function() {
         })
         .then(() => PresenceSheet.bulkCreate([]))
         .then(() => Mark.bulkCreate([]))
-        //.then(() => Exam.bulkCreate(exams))
         .then(() => User.bulkCreate(users, {validate: true, individualHooks: true}))
         .then(() => News.bulkCreate(news))
+        .then(() => Exam.bulkCreate(exams))
+        .then(() => Document.bulkCreate(documents))
         .catch(error => console.log(error));
 
     

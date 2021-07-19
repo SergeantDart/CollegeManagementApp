@@ -1,17 +1,21 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {getNews} from "../actions/newsActions";
+import {getNews, clearNews, getFilteredNews, clearNewsList} from "../actions/newsActions";
 import {countEsentials} from "../actions/otherActions";
 import News from "../components/News";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class NewsList extends Component {
     state = {
         news: [],
         newsCount: 0,
         offset: 0,
-        limit: 5,
+        limit: 8,
         loaded: false,
-        dummy: false
+        dummy: false,
+        navButtons: true,
+        keyword: ""
     }
 
     UNSAFE_componentWillMount() {
@@ -20,7 +24,6 @@ class NewsList extends Component {
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
 
         if(nextProps.others.counts) {
             if(nextProps.others.counts.newsCount != null) {
@@ -39,7 +42,15 @@ class NewsList extends Component {
             }
 
             if(nextProps.news.deletedNews != null) {
-                window.location.reload(false);
+                window.location.reload();
+            }
+
+            if(nextProps.news.filteredNewsList) {
+                this.setState({
+                    news: nextProps.news.filteredNewsList.newsData,
+                    offset: 0,
+                    loaded: true
+                });
             }
         }
     }
@@ -97,6 +108,31 @@ class NewsList extends Component {
         }
     }
 
+    changeHandle = (value) => {
+        this.setState({
+            keyword: value
+        });
+
+        this.props.dispatch(clearNewsList());
+
+        if(value != "") {
+            if(value.length >= 3 && this.state.keyword.length <= value.length) {
+                setTimeout(() => { 
+                    this.props.dispatch(getFilteredNews(value));
+                    this.setState({
+                        navButtons: false,
+                    });
+                }, 500);
+            }
+        } else {
+            this.props.dispatch(getNews(this.state.offset, this.state.limit));
+            this.setState({
+                navButtons: true,
+                loaded: false
+            });
+        }
+    }
+
     render() {
 
         if(this.state.loaded == true) {
@@ -107,13 +143,16 @@ class NewsList extends Component {
                     
                     {this.renderAddNewsButton()}
 
+                    <FontAwesomeIcon id="search_icon" icon={faSearch}/>
+                    <input className="search_input" value={this.state.keyword} onChange={(event) => this.changeHandle(event.target.value)} placeholder="Enter keyword..."/>
+
                     <div>
 
                         {this.state.news.length > 0 ? this.renderNews(this.state.news) : <div className="message">No news published yet.</div>}
 
                     </div>
 
-                    {this.state.news.length > 0 ? this.renderNavButtons() : null}
+                    {this.state.news.length > 0 && this.state.navButtons ? this.renderNavButtons() : null}
 
                 </div>
 

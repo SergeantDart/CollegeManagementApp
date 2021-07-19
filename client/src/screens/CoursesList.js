@@ -1,8 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {clearCoursesList, clearCourse, getCourses, getCoursesByStudentEmail, getCoursesByProfessorEmail} from "../actions/coursesActions";
+import {clearCoursesList, clearCourse, getCourses, getCoursesByStudentEmail, getCoursesByProfessorEmail, getFilteredCourses} from "../actions/coursesActions";
 import {countEsentials} from "../actions/otherActions";
 import Course from "../components/Course";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class CoursesList extends Component {
     state = {
@@ -10,8 +12,10 @@ class CoursesList extends Component {
         courses: [],
         coursesCount: 0,
         offset: 0,
-        limit: 5,
+        limit: 6,
         loaded: false,
+        keyword: "",
+        navButtons: true,
         dummy: false
     }
 
@@ -46,6 +50,13 @@ class CoursesList extends Component {
             if(nextProps.courses.deletedCourse != null) {
                 window.location.reload();
                 this.props.dispatch(clearCourse());
+            }
+
+            if(nextProps.courses.keywordFilteredCoursesList) {
+                this.setState({
+                    courses: nextProps.courses.keywordFilteredCoursesList.coursesData,
+                    loaded: true
+                })
             }
         }
     }
@@ -101,6 +112,29 @@ class CoursesList extends Component {
         }
     }
 
+    changeHandle = (value) => {
+        this.setState({
+            keyword: value
+        });
+
+        this.props.dispatch(clearCoursesList());
+        if(value != "") {
+            if(value.length >= 3 && this.state.keyword.length <= value.length) {
+                setTimeout(() => { 
+                    this.props.dispatch(getFilteredCourses(value));
+                    this.setState({
+                        navButtons: false,
+                    });
+                }, 500);
+            }
+        } else {
+            this.props.dispatch(getCourses(this.state.offset, this.state.limit));
+            this.setState({
+                navButtons: true
+            });
+        }
+    }
+
 
 
     loadAllCoursesHandle = () => {
@@ -108,7 +142,8 @@ class CoursesList extends Component {
         this.props.dispatch(getCourses(this.state.offset, this.state.limit));
         this.setState({
             customList: false,
-            loaded: false
+            loaded: false,
+            keyword: ""
         })
     }
 
@@ -117,7 +152,8 @@ class CoursesList extends Component {
         this.props.dispatch(getCoursesByProfessorEmail(professorEmail));
         this.setState({
             customList: true,
-            loaded: false
+            loaded: false,
+            keyword: ""
         });
     }
 
@@ -126,7 +162,8 @@ class CoursesList extends Component {
         this.props.dispatch(getCoursesByStudentEmail(studentEmail));
         this.setState({
             customList: true,
-            loaded: false
+            loaded: false,
+            keyword: ""
         });
     }
 
@@ -158,10 +195,12 @@ class CoursesList extends Component {
 
                     {this.props.users.login.user.userRole == "admin" ? this.renderAddCourseButton() : null}
 
-                    {this.props.users.login.user.userRole == "professor" && this.state.courses.length > 0 ? this.renderProfessorCoursesButton() : null}
+                    {this.props.users.login.user.userRole == "professor"  ? this.renderProfessorCoursesButton() : null}
 
+                    {this.props.users.login.user.userRole == "student"  ? this.renderStudentCoursesButton() : null}
 
-                    {this.props.users.login.user.userRole == "student" && this.state.courses.length > 0 ? this.renderStudentCoursesButton() : null}
+                    <FontAwesomeIcon id="search_icon" icon={faSearch}/>
+                    <input className="search_input" value={this.state.keyword} onChange={(event) => this.changeHandle(event.target.value)} placeholder="Enter keyword..."/>
 
 
                     <div>
@@ -170,7 +209,7 @@ class CoursesList extends Component {
 
                     </div>
 
-                    {!this.state.customList && this.state.courses.length > 0 ? this.renderNavButtons() : null}
+                    {!this.state.customList && this.state.courses.length > 0 && this.state.navButtons ? this.renderNavButtons() : null}
 
                 </div>
 

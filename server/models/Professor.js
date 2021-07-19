@@ -56,7 +56,7 @@ const Professor = sequelize.define("Professor", {
                         User.create({
                             userEmail: professor.professorEmail,
                             userPassword: "123456",
-                            userRoleId: 2
+                            userRoleId: 15
                         }).then(user => {
                             professor.userId = user.userId;
                             resolve();

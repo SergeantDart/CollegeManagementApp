@@ -1,16 +1,20 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {countEsentials} from "../actions/otherActions";
-import {clearSubjects, clearSubject, getSubjects} from "../actions/subjectActions";
+import {clearSubjects, clearSubject, getSubjects, getFilteredSubjects} from "../actions/subjectActions";
 import Subject from "../components/Subject";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class SubjectsList extends Component {
     state = {
         subjects: [],
         subjectsCount: 0,
         offset: 0,
-        limit: 5,
+        limit: 6,
         loaded: false,
+        keyword: "",
+        navButtons: true,
         dummy: false
     }
 
@@ -39,6 +43,14 @@ class SubjectsList extends Component {
             if(nextProps.subjects.deletedSubject) { 
                 window.location.reload();
                 this.props.dispatch(clearSubject());
+            }
+
+            if(nextProps.subjects.filteredSubjectsList) {
+                this.setState({
+                    subjects: nextProps.subjects.filteredSubjectsList.subjectsData,
+                    offset: 0,
+                    loaded: true
+                });
             }
         }
     }
@@ -93,6 +105,30 @@ class SubjectsList extends Component {
         }
     }
 
+    changeHandle = (value) => {
+        this.setState({
+            keyword: value
+        });
+
+        this.props.dispatch(clearSubjects());
+        if(value != "") {
+            if(value.length >= 3 && this.state.keyword.length <= value.length) {
+                setTimeout(() => { 
+                    this.props.dispatch(getFilteredSubjects(value));
+                    this.setState({
+                        navButtons: false,
+                    });
+                }, 500);
+            }
+        } else {
+            this.props.dispatch(getSubjects(this.state.offset, this.state.limit));
+            this.setState({
+                navButtons: true,
+                loaded: false
+            });
+        }
+    }
+
     render() {
 
         if(this.state.loaded == true) {
@@ -103,13 +139,16 @@ class SubjectsList extends Component {
 
                     {this.props.users.login.user.userRole == "admin" ? this.renderAddSubjectButton() : null}
 
+                    <FontAwesomeIcon id="search_icon" icon={faSearch}/>
+                    <input className="search_input" value={this.state.keyword} onChange={(event) => this.changeHandle(event.target.value)} placeholder="Enter keyword..."/>
+
                     <div>
 
                         {this.state.subjects.length > 0 ? this.renderSubjects(this.state.subjects) : <div className="message">No subjects yet.</div>}
 
                     </div>
 
-                    {this.state.subjects.length > 0 ? this.renderNavButtons() : null}
+                    {this.state.subjects.length > 0 && this.state.navButtons ? this.renderNavButtons() : null}
 
                 </div>
 

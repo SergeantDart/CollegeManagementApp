@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {deleteDocument} from "../actions/documentActions";
 import Swal from "sweetalert2";
 import {firebase} from "../Firebase";
+import {connect} from "react-redux";
 
 
 class Document extends Component  {
@@ -21,15 +22,13 @@ class Document extends Component  {
                 documentPath: url,
                 document: this.props.document
             })
+        }).catch(error => {
+            console.log(error);
         })
     }
 
     componentWillMount() {
         this.getDocumentURL(this.props.document.documentStoragePath);
-    }
-
-    downloadDocumentHandle = () => {
-
     }
 
     deleteDepartmentHandle = (documentId) => {
@@ -44,12 +43,16 @@ class Document extends Component  {
         }).then((result) => {
             if (result.isConfirmed) {
                 this.props.dispatch(deleteDocument(documentId));
+                firebase.storage().ref("documents").child(this.state.document.documentStoragePath).delete()
+                .catch(error => {
+                    console.log(error);
+                })
             } 
         });    
     }
 
     openDocumentHandle = () => {
-        var link=document.createElement("a");
+        var link = document.createElement("a");
         link.href = this.state.documentPath;
         link.target = "_blank";
         link.download = this.state.document.documentStoragePath;
@@ -73,7 +76,6 @@ class Document extends Component  {
     }
 
     render() {
-        console.log(this.state);
         if(this.state.isLoaded) {
             return (
                 <div className="document">
@@ -98,5 +100,11 @@ class Document extends Component  {
         
     }    
 }
+function mapStateToProps(state) {
+    return {
+        documents: state.documents,
+        others: state.others
+    }
+}
 
-export default Document;
+export default connect(mapStateToProps)(Document);

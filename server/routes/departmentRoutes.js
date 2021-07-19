@@ -48,7 +48,27 @@ module.exports = function(app) {
         })
     });
 
-
+    app.get("/api/getFilteredDepartments", (req, res) => {
+        Department.findAll({include : [
+            {
+                model: Faculty
+            }]})
+        .then(departments => {
+            if(departments) {
+                departments = departments.filter(department => department.departmentName.startsWith(req.query.keyword));
+                res.json(departments);
+            }else {
+                res.json({
+                    message: "No departments found..."
+                })
+            }
+        }).catch(error => {
+            console.log(error);
+            res.json({
+                message: error.message
+            });
+        })
+    });
 
     app.get("/api/getDepartment/:id", (req, res) => {
         Department.findByPk(req.params.id)

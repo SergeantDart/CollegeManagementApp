@@ -9,9 +9,9 @@ module.exports = [
         studentAddress: "Decebal 16, Rm. Valcea",
         studentPhone: "0726232499",
         studentIsTaxed: false,
-        studyGroupId: 1,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 5,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Dragne",
@@ -21,9 +21,9 @@ module.exports = [
         studentAddress: "Cetatea Histria 7, Bucuresti",
         studentPhone: "0712121212",
         studentIsTaxed: false,
-        studyGroupId: 1,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 5,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Socol",
@@ -33,9 +33,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 1,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 5,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Mihai",
@@ -45,9 +45,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 1,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 5,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Socol",
@@ -57,9 +57,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 2,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 15,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Pope",
@@ -69,9 +69,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 2,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 15,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Popesco",
@@ -81,9 +81,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 2,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 15,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Titu",
@@ -93,9 +93,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 2,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 15,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Cocau",
@@ -105,9 +105,9 @@ module.exports = [
         studentAddress: "Republicii 109, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 2,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 15,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Calota",
@@ -117,9 +117,9 @@ module.exports = [
         studentAddress: "Republicii 111, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 2,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 15,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Iorgulescu",
@@ -129,9 +129,9 @@ module.exports = [
         studentAddress: "Republicii 1118, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 2,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 15,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Georgescu",
@@ -141,9 +141,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 3,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 25,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Horia",
@@ -153,9 +153,9 @@ module.exports = [
         studentAddress: "Republicii 142, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 3,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 25,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Georgescu",
@@ -165,9 +165,9 @@ module.exports = [
         studentAddress: "Republicii 133, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 3,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 25,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Dumitescu",
@@ -177,9 +177,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 3,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 25,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Geo",
@@ -189,9 +189,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 4,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 35,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Capitanescu",
@@ -201,9 +201,9 @@ module.exports = [
         studentAddress: "Republicii 148, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 4,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 35,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Copos",
@@ -213,9 +213,9 @@ module.exports = [
         studentAddress: "Republicii 144, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 4,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 35,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Margarescu",
@@ -225,9 +225,9 @@ module.exports = [
         studentAddress: "Republicii 108, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 4,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 35,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Popa",
@@ -237,9 +237,9 @@ module.exports = [
         studentAddress: "Republicii 111, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 1,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 5,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Florescu",
@@ -249,9 +249,9 @@ module.exports = [
         studentAddress: "Republicii 111, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 2,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 15,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Suciu",
@@ -261,9 +261,9 @@ module.exports = [
         studentAddress: "Republicii 111, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 3,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 25,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Dobre",
@@ -273,9 +273,9 @@ module.exports = [
         studentAddress: "Republicii 111, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 4,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 35,
+        facultyId: 5,
+        studyYearId: 5
     },
     {
         studentFirstName: "Miticescu",
@@ -285,8 +285,8 @@ module.exports = [
         studentAddress: "Republicii 111, Rm. Valcea",
         studentPhone: "0712121212",
         studentIsTaxed: true,
-        studyGroupId: 4,
-        facultyId: 1,
-        studyYearId: 1
+        studyGroupId: 35,
+        facultyId: 5,
+        studyYearId: 5
     }
 ];

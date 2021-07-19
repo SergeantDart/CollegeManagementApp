@@ -16,7 +16,7 @@ export function addNews(news) {
     }
 }
 
-export function getNews(offset = 0, limit = 5, type = "") {
+export function getNews(offset=0, limit=9999) {
     return(dispatch) => {
         axios.get(`/api/getNews?offset=${offset}&limit=${limit}`)
         .then(newsData => {
@@ -24,11 +24,31 @@ export function getNews(offset = 0, limit = 5, type = "") {
             const payload = {
                 newsData,
                 offset,
-                limit,
-                type
+                limit
             };
             dispatch({
                 type: "NEWS_LIST",
+                payload: payload
+            });
+
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+}
+
+export function getFilteredNews(keyword = "") {
+    return(dispatch) => {
+        axios.get(`/api/getFilteredNews?keyword=${keyword}`)
+        .then(newsData => {
+            newsData = newsData.data;
+            const payload = {
+                newsData,
+                keyword
+            };
+            dispatch({
+                type: "FILTERED_NEWS_LIST",
                 payload: payload
             });
 

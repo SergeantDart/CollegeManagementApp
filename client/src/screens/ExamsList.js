@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {getExams, clearExams, clearExam, deleteExam, getExamsByProfessorEmail, getExamsByStudentEmail} from "../actions/examActions";
+import {getExams, clearExams, clearExam, deleteExam, getExamsByProfessorEmail, getExamsByStudentEmail, getFilteredExams} from "../actions/examActions";
 import {countEsentials} from "../actions/otherActions";
 import Exam from "../components/Exam";
 import Swal from "sweetalert2";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 class ExamsList extends Component {
@@ -12,7 +14,8 @@ class ExamsList extends Component {
         labels: {
                 examId: "ID",
                 Course: {
-                    courseName: "Course"
+                    courseName: "Course",
+                    studyGroupId: "StudyGroup"
                 },
                 examDate: "Date",
                 examIsOnline: "Form"
@@ -21,9 +24,11 @@ class ExamsList extends Component {
         exams: [],
         examsCount: 0,
         offset: 0,
-        limit: 5,
+        limit: 10,
         loaded: false,
-        dummy: false
+        dummy: false,
+        keyword: "",
+        navButtons: true
     }
 
 
@@ -55,6 +60,14 @@ class ExamsList extends Component {
         if(nextProps.exams.deletedExam) {
             window.location.reload();
             this.props.dispatch(clearExam());
+        }
+
+        if(nextProps.exams.keywordFilteredExamsList) {
+            this.setState({
+                exams: nextProps.exams.keywordFilteredExamsList.examsData,
+                offset: 0,
+                loaded: true
+            });
         }
     }
 
@@ -135,7 +148,8 @@ class ExamsList extends Component {
         this.props.dispatch(getExams(this.state.offset, this.state.limit));
         this.setState({
             customList: false,
-            loaded: false
+            loaded: false,
+            keyword: ""
         })
     }
 
@@ -144,7 +158,8 @@ class ExamsList extends Component {
         this.props.dispatch(getExamsByProfessorEmail(professorEmail));
         this.setState({
             customList: true,
-            loaded: false
+            loaded: false,
+            keyword: ""
         });
     }
 
@@ -153,8 +168,34 @@ class ExamsList extends Component {
         this.props.dispatch(getExamsByStudentEmail(studentEmail));
         this.setState({
             customList: true,
-            loaded: false
+            loaded: false,
+            keyword: ""
         });
+    }
+
+    changeHandle = (value) => {
+        this.setState({
+            keyword: value
+        });
+
+        this.props.dispatch(clearExams());
+
+        if(value != "") {
+            if((value.length >= 3 || !isNaN(value)) && this.state.keyword.length <= value.length) {
+                setTimeout(() => { 
+                    this.props.dispatch(getFilteredExams(value));
+                    this.setState({
+                        navButtons: false,
+                    });
+                }, 500);
+            }
+        } else {
+            this.props.dispatch(getExams(this.state.offset, this.state.limit));
+            this.setState({
+                loaded: false,
+                navButtons: true
+            });
+        }
     }
 
     renderProfessorExamsButton = () => {
@@ -184,10 +225,12 @@ class ExamsList extends Component {
                     
                     {this.props.users.login.user.userRole == "admin" ? this.renderAddExamButton() : null}
 
-                    {this.props.users.login.user.userRole == "professor" && this.state.exams.length > 0 ? this.renderProfessorExamsButton() : null}
+                    {this.props.users.login.user.userRole == "professor" ? this.renderProfessorExamsButton() : null}
 
-                    {this.props.users.login.user.userRole == "student" && this.state.exams.length > 0 ? this.renderStudentCoursesButton() : null}
+                    {this.props.users.login.user.userRole == "student" ? this.renderStudentCoursesButton() : null}
 
+                    <FontAwesomeIcon id="search_icon" icon={faSearch}/>
+                    <input className="search_input" value={this.state.keyword} onChange={(event) => this.changeHandle(event.target.value)} placeholder="Enter keyword..."/>
 
                     <div>
 
@@ -196,7 +239,7 @@ class ExamsList extends Component {
 
                     </div>
 
-                    {!this.state.customList && this.state.exams.length > 0 ? this.renderNavButtons() : null}
+                    {!this.state.customList && this.state.exams.length > 0 && this.state.navButtons ? this.renderNavButtons() : null}
 
                 </div>
 

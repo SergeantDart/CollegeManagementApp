@@ -12,7 +12,7 @@ class AddNews extends Component {
 
     state = {
         editorState: EditorState.createEmpty(),
-        postError: "",
+        error: "",
         loaded: true,
         formData: {
             newsAuthorName: {
@@ -51,25 +51,35 @@ class AddNews extends Component {
                 element: "text-editor",
                 value: "",
                 validation : {
-
+                    required: true
                 },
-                isValid: true
+                isValid: false
             },
             newsPicturePath: {
                 element: "file-uploader",
                 value: "",
                 validation : {
-
+                    required: true
                 },
-                isValid: true   
+                isValid: false   
             }
         }
     };
 
+    componentWillMount() {
+        this.props.dispatch(clearNews());
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.news.news) {
-            this.props.dispatch(clearNews());
-            this.props.history.push("/news-list");
+            if(nextProps.news.news.message) {
+                this.setState({
+                    error: nextProps.news.news.message,
+                    loaded: true
+                });
+            } else {
+                this.props.history.push("/news-list");
+            }
         }
     }
 
@@ -122,17 +132,16 @@ class AddNews extends Component {
             isFormValid = this.state.formData[key].isValid && isFormValid ? true : false;
         }
 
-
         if(isFormValid) {
             this.setState({
                 loaded: false,
-                postError: ""
+                error: ""
             });
             this.props.dispatch(addNews(dataToSubmit));
         }else {
             console.log("There was an error !");
             this.setState({
-                postError: "Something went wrong !"
+                error: "Something went wrong !"
             });
         }
     }
@@ -153,10 +162,10 @@ class AddNews extends Component {
 
     renderError = () => {
         return (
-            this.state.postError !== "" 
+            this.state.error !== "" 
             ?
             <div className="error">
-                {this.state.postError}
+                {this.state.error}
             </div>
             :
             ""

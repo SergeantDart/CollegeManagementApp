@@ -23,6 +23,27 @@ export function getExams(offset=0, limit=9999, type="") {
     }
 }
 
+export function getFilteredExams(keyword="") {
+    return(dispatch) => {
+        axios.get(`/api/getFilteredExams?keyword=${keyword}`)
+        .then(examsData => {
+            examsData = examsData.data;
+            const payload = {
+                examsData,
+                keyword
+            };
+            dispatch({
+                type: "KEYWORD_FILTERED_EXAMS_LIST",
+                payload: payload
+            });
+
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+}
+
 export function getExam(id) {
     const request = axios.get(`/api/getExam/${id}`)
     .then(response => response.data)

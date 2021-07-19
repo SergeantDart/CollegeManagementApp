@@ -4,7 +4,6 @@ import {getDepartment, clearDepartment, updateDepartment} from "../actions/depar
 import {getFaculties, clearFaculties} from "../actions/facultyActions";
 import {connect} from "react-redux";
 import FormField from "../components/FormField";
-import moment from "moment";
 import {Link} from "react-router-dom";
 
 class AboutDepartment extends Component {
@@ -112,20 +111,23 @@ class AboutDepartment extends Component {
                         loading: false
                     }); 
                 }
-    
-            }
-            
-            if(nextProps.departments.updatedDepartment) {
-                if(nextProps.departments.updatedDepartment.message) {
-                    this.setState({
-                        error: nextProps.departments.updatedDepartment.message
-                    });
-                }else {
-                    this.setState({
-                        edit: false
-                    });
-                    this.props.dispatch(clearDepartment());
-                    this.props.history.push("/departments-list");
+                if(nextProps.departments.updatedDepartment) {
+                    if(nextProps.departments.updatedDepartment.message) {
+                        this.setState({
+                            error: nextProps.departments.updatedDepartment.message
+                        });
+                    }else {
+                        let tempFormData = this.state.formData;
+                        for(var key of Object.keys(tempFormData)) {
+                            tempFormData[key].config.disabled = true;
+                        }
+                        this.setState({
+                            department: nextProps.departments.updatedDepartment,
+                            loading: false,
+                            edit: false,
+                            formData: tempFormData
+                        });
+                    }
                 }
             }
         }
@@ -250,6 +252,7 @@ class AboutDepartment extends Component {
 
         if(isFormValid) {
             document.body.click();
+            this.props.dispatch(clearDepartment());
             this.props.dispatch(updateDepartment(this.state.department.departmentId, dataToSubmit));
             this.setState({
                 error: "",
@@ -287,7 +290,6 @@ class AboutDepartment extends Component {
                 <div className="message">No professors enrolled yet in this department.</div>
             )
         }
-
     }
 
 
@@ -312,7 +314,7 @@ class AboutDepartment extends Component {
                             changeHandle={(formResponse) => this.updateForm(formResponse)}/>
 
 
-                        {this.props.users.login.userRole == "admin" ? this.renderButton() : null}
+                        {this.props.users.login.user.userRole == "admin" ? this.renderButton() : null}
                         {this.renderError()}
 
                     </div>
